@@ -1,0 +1,41 @@
+package com.mike.gymmanagement.model;
+
+import com.mike.gymmanagement.enums.DifficultyEnum;
+import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
+
+public class StrengthExercise extends Exercise {
+    private int reps;
+    private int sets;
+    private int weight;
+
+    public StrengthExercise(int id, long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int reps, int sets, int weight) {
+        super(id, date, name, difficulty, category, equipment);
+        this.reps = reps;
+        this.sets = sets;
+        this.weight = weight;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
+    public int getSets() {
+        return sets;
+    }
+
+    public void setSets(int sets) {
+        this.sets = sets;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+}
