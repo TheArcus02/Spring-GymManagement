@@ -1,18 +1,20 @@
 package com.mike.gymmanagement.model;
 
-public class Training extends DbObject {
-    private Exercise[] exercises;
+import java.util.List;
 
-    public Training(int id, long date, String name, Exercise[] exercises) {
+public class Training extends DbObject {
+    private List<Exercise> exercises;
+
+    public Training(int id, long date, String name, List<Exercise> exercises) {
         super(id, date, name);
         this.exercises = exercises;
     }
 
-    public Exercise[] getExercises() {
+    public List<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises(Exercise[] exercises) {
+    public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
 }

@@ -16,6 +16,14 @@ public abstract class Exercise extends DbObject {
 
     }
 
+    public void occupyEquipment() {
+        equipment.setOccupied(true);
+    }
+
+    public void freeEquipment() {
+        equipment.setOccupied(false);
+    }
+
     public DifficultyEnum getDifficulty() {
         return difficulty;
     }
