@@ -1,7 +1,7 @@
 package com.mike.gymmanagement.model;
 
 public abstract class DbObject {
-    private int id;
+    private long id;
     private long date;
     private String name;
 
@@ -11,11 +11,11 @@ public abstract class DbObject {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
