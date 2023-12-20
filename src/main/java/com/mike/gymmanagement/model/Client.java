@@ -1,11 +1,25 @@
 package com.mike.gymmanagement.model;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "clients")
 public class Client extends DbObject {
     private String surname;
     private double weight;
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "workout_plan_id")
     private WorkoutPlan workoutPlan;
 
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private Trainer trainer;
 
     public Client(int id, long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
         super(id, date, name);
@@ -13,6 +27,10 @@ public class Client extends DbObject {
         this.weight = weight;
         this.email = email;
         this.workoutPlan = workoutPlan;
+    }
+
+    public Client() {
+
     }
 
     //    Start trainng and stop training

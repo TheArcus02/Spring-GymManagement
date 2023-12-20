@@ -1,6 +1,16 @@
 package com.mike.gymmanagement.model;
 
+import jakarta.persistence.*;
+
+@MappedSuperclass
 public abstract class DbObject {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dbobject_id_seq")
+    @SequenceGenerator(name = "dbobject_id_seq",
+            sequenceName = "dbobject_id_seq",
+            allocationSize = 1)
     private long id;
     private long date;
     private String name;
@@ -9,6 +19,10 @@ public abstract class DbObject {
         this.id = id;
         this.date = date;
         this.name = name;
+    }
+
+    public DbObject() {
+
     }
 
     public long getId() {

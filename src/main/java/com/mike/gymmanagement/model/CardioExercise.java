@@ -2,7 +2,9 @@ package com.mike.gymmanagement.model;
 
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
+import jakarta.persistence.Entity;
 
+@Entity
 public class CardioExercise extends Exercise {
     private int duration;
     private int tempo;
@@ -11,6 +13,10 @@ public class CardioExercise extends Exercise {
         super(id, date, name, difficulty, category, equipment);
         this.duration = duration;
         this.tempo = tempo;
+    }
+
+    public CardioExercise() {
+        
     }
 
     public int getDuration() {

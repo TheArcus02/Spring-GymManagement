@@ -1,11 +1,21 @@
 package com.mike.gymmanagement.model;
 
 import com.mike.gymmanagement.enums.DifficultyEnum;
+import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
+@Table(name = "workout_plans")
 public class WorkoutPlan extends DbObject {
     private String description;
+
+    @ManyToMany
+    @JoinTable(
+            name = "workout_plan_training",
+            joinColumns = @JoinColumn(name = "workout_plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "training_id")
+    )
     private List<Training> trainings;
 
     private DifficultyEnum difficulty;
@@ -16,6 +26,10 @@ public class WorkoutPlan extends DbObject {
         this.description = description;
         this.trainings = trainings;
         this.difficulty = difficulty;
+    }
+
+    public WorkoutPlan() {
+
     }
 
     public List<Training> getTrainings() {

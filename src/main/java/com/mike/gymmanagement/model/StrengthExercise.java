@@ -2,7 +2,9 @@ package com.mike.gymmanagement.model;
 
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
+import jakarta.persistence.Entity;
 
+@Entity
 public class StrengthExercise extends Exercise {
     private int reps;
     private int sets;
@@ -13,6 +15,10 @@ public class StrengthExercise extends Exercise {
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;
+    }
+
+    public StrengthExercise() {
+
     }
 
     public int getReps() {

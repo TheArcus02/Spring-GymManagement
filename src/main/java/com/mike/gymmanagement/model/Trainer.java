@@ -1,12 +1,21 @@
 package com.mike.gymmanagement.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "trainers")
 public class Trainer extends DbObject {
 
     private String surname;
     private double salary;
+
+    @OneToMany(mappedBy = "trainer")
     private List<Client> clients;
 
     public Trainer(int id, long date, String name, String surname, double salary) {
@@ -14,6 +23,10 @@ public class Trainer extends DbObject {
         this.surname = surname;
         this.salary = salary;
         this.clients = new ArrayList<>();
+    }
+
+    public Trainer() {
+        super();
     }
 
     public void assignWorkoutPlan(Client client, WorkoutPlan workoutPlan) {

@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-gym-container
+    environment:
+      MYSQL_ROOT_PASSWORD: gym
+      MYSQL_DATABASE: gym-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
