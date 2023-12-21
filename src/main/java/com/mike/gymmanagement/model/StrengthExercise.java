@@ -10,8 +10,8 @@ public class StrengthExercise extends Exercise {
     private int sets;
     private int weight;
 
-    public StrengthExercise(int id, long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int reps, int sets, int weight) {
-        super(id, date, name, difficulty, category, equipment);
+    public StrengthExercise(long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int reps, int sets, int weight) {
+        super(date, name, difficulty, category, equipment);
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;

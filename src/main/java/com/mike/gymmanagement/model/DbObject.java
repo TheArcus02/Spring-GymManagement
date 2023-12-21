@@ -7,16 +7,12 @@ public abstract class DbObject {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dbobject_id_seq")
-    @SequenceGenerator(name = "dbobject_id_seq",
-            sequenceName = "dbobject_id_seq",
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long date;
     private String name;
 
-    public DbObject(int id, long date, String name) {
-        this.id = id;
+    public DbObject(long date, String name) {
         this.date = date;
         this.name = name;
     }

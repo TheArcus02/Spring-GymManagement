@@ -1,12 +1,12 @@
 package com.mike.gymmanagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "trainers")
@@ -15,14 +15,14 @@ public class Trainer extends DbObject {
     private String surname;
     private double salary;
 
-    @OneToMany(mappedBy = "trainer")
-    private List<Client> clients;
+    @JsonIgnore
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
+    private Set<Client> clients = new HashSet<>();
 
-    public Trainer(int id, long date, String name, String surname, double salary) {
-        super(id, date, name);
+    public Trainer(long date, String name, String surname, double salary) {
+        super(date, name);
         this.surname = surname;
         this.salary = salary;
-        this.clients = new ArrayList<>();
     }
 
     public Trainer() {
@@ -37,11 +37,11 @@ public class Trainer extends DbObject {
         clients.add(client);
     }
 
-    public List<Client> getClients() {
+    public Set<Client> getClients() {
         return clients;
     }
 
-    public void setClients(List<Client> clients) {
+    public void setClients(Set<Client> clients) {
         this.clients = clients;
     }
 

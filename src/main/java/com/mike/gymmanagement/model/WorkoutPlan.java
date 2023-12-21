@@ -3,7 +3,9 @@ package com.mike.gymmanagement.model;
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "workout_plans")
@@ -12,17 +14,17 @@ public class WorkoutPlan extends DbObject {
 
     @ManyToMany
     @JoinTable(
-            name = "workout_plan_training",
+            name = "workout_plan_trainings",
             joinColumns = @JoinColumn(name = "workout_plan_id"),
             inverseJoinColumns = @JoinColumn(name = "training_id")
     )
-    private List<Training> trainings;
+    private Set<Training> trainings = new HashSet<>();
 
     private DifficultyEnum difficulty;
 
 
-    public WorkoutPlan(int id, long date, String name, String description, List<Training> trainings, DifficultyEnum difficulty) {
-        super(id, date, name);
+    public WorkoutPlan(long date, String name, String description, Set<Training> trainings, DifficultyEnum difficulty) {
+        super(date, name);
         this.description = description;
         this.trainings = trainings;
         this.difficulty = difficulty;
@@ -32,11 +34,11 @@ public class WorkoutPlan extends DbObject {
 
     }
 
-    public List<Training> getTrainings() {
+    public Set<Training> getTrainings() {
         return trainings;
     }
 
-    public void setTrainings(List<Training> trainings) {
+    public void setTrainings(Set<Training> trainings) {
         this.trainings = trainings;
     }
 

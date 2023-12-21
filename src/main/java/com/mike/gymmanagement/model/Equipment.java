@@ -1,5 +1,6 @@
 package com.mike.gymmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -12,11 +13,12 @@ import java.util.List;
 public abstract class Equipment extends DbObject {
     private boolean occupied;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "equipment")
     private List<Exercise> exercises;
 
-    public Equipment(int id, long date, String name, boolean occupied) {
-        super(id, date, name);
+    public Equipment(long date, String name, boolean occupied) {
+        super(date, name);
         this.occupied = occupied;
     }
 

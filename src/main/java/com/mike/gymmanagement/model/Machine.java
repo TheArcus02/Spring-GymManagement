@@ -7,8 +7,8 @@ import jakarta.persistence.Entity;
 public class Machine extends Equipment {
     private ExerciseCategoryEnum type;
 
-    public Machine(int id, long date, String name, boolean occupied, ExerciseCategoryEnum type) {
-        super(id, date, name, occupied);
+    public Machine(long date, String name, boolean occupied, ExerciseCategoryEnum type) {
+        super(date, name, occupied);
         this.type = type;
     }
 

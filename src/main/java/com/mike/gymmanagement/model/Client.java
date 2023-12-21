@@ -1,10 +1,7 @@
 package com.mike.gymmanagement.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "clients")
@@ -14,15 +11,15 @@ public class Client extends DbObject {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "workout_plan_id")
+    @JoinColumn(name = "workout_plan_id", referencedColumnName = "id")
     private WorkoutPlan workoutPlan;
 
-    @ManyToOne
-    @JoinColumn(name = "trainer_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "trainer_id", referencedColumnName = "id")
     private Trainer trainer;
 
-    public Client(int id, long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
-        super(id, date, name);
+    public Client(long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
+        super(date, name);
         this.surname = surname;
         this.weight = weight;
         this.email = email;
@@ -72,5 +69,13 @@ public class Client extends DbObject {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
     }
 }

@@ -12,21 +12,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/trainer")
 public class TrainerController {
 
     private final TrainerRepository trainerRepository;
+    private final ClientRepository clientRepository;
 
 
     @Autowired
-    public TrainerController(TrainerRepository trainerRepository, ClientRepository clientRepository, WorkoutPlanRepository workoutPlanRepository) {
+    public TrainerController(TrainerRepository trainerRepository, ClientRepository clientRepository) {
         this.trainerRepository = trainerRepository;
+        this.clientRepository = clientRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public Iterable<Trainer> getAllTrainers() {
         return trainerRepository.findAll();
     }
@@ -38,7 +38,7 @@ public class TrainerController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Trainer> addTrainer(@RequestBody Trainer trainer) {
         Trainer newTrainer = trainerRepository.save(trainer);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTrainer);

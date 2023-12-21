@@ -6,8 +6,8 @@ import jakarta.persistence.Entity;
 public class Barbell extends Equipment {
     private int weight;
 
-    public Barbell(int id, long date, String name, boolean occupied, int weight) {
-        super(id, date, name, occupied);
+    public Barbell(long date, String name, boolean occupied, int weight) {
+        super(date, name, occupied);
         this.weight = weight;
     }
 
