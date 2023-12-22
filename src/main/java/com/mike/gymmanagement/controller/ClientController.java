@@ -31,6 +31,11 @@ public class ClientController {
         return ResponseEntity.ok().body(client);
     }
 
+    @PostMapping("")
+    public Client addClient(@RequestBody Client client) {
+        return clientService.addClient(client);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
         Client client = clientService.updateClient(id, updatedClient);
@@ -49,10 +54,15 @@ public class ClientController {
         return ResponseEntity.ok().body(client);
     }
 
-    @PostMapping("")
-    public Client addClient(@RequestBody Client client) {
-        return clientService.addClient(client);
+    @PutMapping("/{clientId}/workout-plan/{workoutPlanId}")
+    public ResponseEntity<Client> assignWorkoutPlan(@PathVariable Long clientId, @PathVariable Long workoutPlanId) {
+        Client client = clientService.assignWorkoutPlan(clientId, workoutPlanId);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(client);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {

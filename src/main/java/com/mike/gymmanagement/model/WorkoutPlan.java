@@ -1,10 +1,10 @@
 package com.mike.gymmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,13 +12,17 @@ import java.util.Set;
 public class WorkoutPlan extends DbObject {
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "workout_plan_trainings",
             joinColumns = @JoinColumn(name = "workout_plan_id"),
             inverseJoinColumns = @JoinColumn(name = "training_id")
     )
     private Set<Training> trainings = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "workoutPlan", fetch = FetchType.EAGER)
+    private Set<Client> clients = new HashSet<>();
 
     private DifficultyEnum difficulty;
 
@@ -50,6 +54,13 @@ public class WorkoutPlan extends DbObject {
         this.description = description;
     }
 
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
+    }
 
     public DifficultyEnum getDifficulty() {
         return difficulty;

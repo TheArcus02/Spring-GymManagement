@@ -17,7 +17,7 @@ public class Client extends DbObject {
     private WorkoutPlan workoutPlan;
 
     @ManyToOne()
-//    @JoinColumn(name = "trainer_id", referencedColumnName = "id")
+    @JoinColumn(name = "trainer_id", referencedColumnName = "id")
     private Trainer trainer;
 
     public Client(long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {

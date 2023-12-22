@@ -3,6 +3,7 @@ package com.mike.gymmanagement.service;
 import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.TrainerRepository;
+import com.mike.gymmanagement.repository.WorkoutPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,13 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final TrainerRepository trainerRepository;
+    private final WorkoutPlanRepository workoutPlanRepository;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, TrainerRepository trainerRepository) {
+    public ClientService(ClientRepository clientRepository, TrainerRepository trainerRepository, WorkoutPlanRepository workoutPlanRepository) {
         this.clientRepository = clientRepository;
         this.trainerRepository = trainerRepository;
+        this.workoutPlanRepository = workoutPlanRepository;
     }
 
     public Iterable<Client> getAllClients() {
@@ -35,6 +38,16 @@ public class ClientService {
                 .flatMap(client -> trainerRepository.findById(trainerId)
                         .map(trainer -> {
                             client.setTrainer(trainer);
+                            return clientRepository.save(client);
+                        }))
+                .orElse(null);
+    }
+
+    public Client assignWorkoutPlan(Long clientId, Long workoutPlanId) {
+        return clientRepository.findById(clientId)
+                .flatMap(client -> workoutPlanRepository.findById(workoutPlanId)
+                        .map(workoutPlan -> {
+                            client.setWorkoutPlan(workoutPlan);
                             return clientRepository.save(client);
                         }))
                 .orElse(null);
