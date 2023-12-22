@@ -1,5 +1,7 @@
 package com.mike.gymmanagement.service;
 
+import com.mike.gymmanagement.exception.NotFoundException;
+import com.mike.gymmanagement.model.Training;
 import com.mike.gymmanagement.model.WorkoutPlan;
 import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.WorkoutPlanRepository;
@@ -11,11 +13,13 @@ public class WorkoutPlanService {
 
     private final WorkoutPlanRepository workoutPlanRepository;
     private final ClientRepository clientRepository;
+    private final TrainingService trainingService;
 
     @Autowired
-    public WorkoutPlanService(WorkoutPlanRepository workoutPlanRepository, ClientRepository clientRepository) {
+    public WorkoutPlanService(WorkoutPlanRepository workoutPlanRepository, ClientRepository clientRepository, TrainingService trainingService) {
         this.workoutPlanRepository = workoutPlanRepository;
         this.clientRepository = clientRepository;
+        this.trainingService = trainingService;
     }
 
     public Iterable<WorkoutPlan> getAllWorkoutPlans() {
@@ -48,6 +52,19 @@ public class WorkoutPlanService {
                     return workoutPlanRepository.save(workoutPlan);
                 })
                 .orElse(null);
+    }
+
+    public WorkoutPlan assignTraining(Long workoutPlanId, Long trainingId) {
+        WorkoutPlan workoutPlan = workoutPlanRepository.findById(workoutPlanId)
+                .orElseThrow(() -> new NotFoundException("WorkoutPlan not found with id: " + workoutPlanId));
+
+        try {
+            Training training = trainingService.getTrainingById(trainingId);
+            workoutPlan.addTraining(training);
+            return workoutPlanRepository.save(workoutPlan);
+        } catch (NotFoundException e) {
+            throw new NotFoundException("Training not found with id: " + trainingId);
+        }
     }
 
     public void deleteWorkoutPlan(Long workoutPlanId) {

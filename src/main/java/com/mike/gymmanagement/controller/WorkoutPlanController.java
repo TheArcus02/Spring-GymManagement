@@ -1,5 +1,6 @@
 package com.mike.gymmanagement.controller;
 
+import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.WorkoutPlan;
 import com.mike.gymmanagement.service.WorkoutPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,15 @@ public class WorkoutPlanController {
     @PatchMapping("/{id}")
     public ResponseEntity<WorkoutPlan> updateWorkoutPlan(@PathVariable Long id, @RequestBody WorkoutPlan updatedWorkoutPlan) {
         WorkoutPlan workoutPlan = workoutPlanService.updateWorkoutPlan(id, updatedWorkoutPlan);
+        if (workoutPlan == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(workoutPlan);
+    }
+
+    @PutMapping("/{workoutPlanId}/training/{trainingId}")
+    public ResponseEntity<WorkoutPlan> assignTraining(@PathVariable Long workoutPlanId, @PathVariable Long trainingId) throws NotFoundException {
+        WorkoutPlan workoutPlan = workoutPlanService.assignTraining(workoutPlanId, trainingId);
         if (workoutPlan == null) {
             return ResponseEntity.notFound().build();
         }

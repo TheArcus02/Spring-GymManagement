@@ -46,6 +46,10 @@ public class WorkoutPlan extends DbObject {
         this.trainings = trainings;
     }
 
+    public void addTraining(Training training) {
+        this.trainings.add(training);
+    }
+
     public String getDescription() {
         return description;
     }

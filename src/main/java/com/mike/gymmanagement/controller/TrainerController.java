@@ -20,8 +20,8 @@ public class TrainerController {
     }
 
     @GetMapping("")
-    public Iterable<Trainer> getAllTrainers() {
-        return trainerService.getAllTrainers();
+    public ResponseEntity<Iterable<Trainer>> getAllTrainers() {
+        return ResponseEntity.ok(trainerService.getAllTrainers());
     }
 
     @GetMapping("/{id}")
