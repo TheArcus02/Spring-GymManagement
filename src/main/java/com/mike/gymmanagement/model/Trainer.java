@@ -1,22 +1,21 @@
 package com.mike.gymmanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "trainers")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Trainer extends DbObject {
 
     private String surname;
     private double salary;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Client> clients = new HashSet<>();
 
     public Trainer(long date, String name, String surname, double salary) {

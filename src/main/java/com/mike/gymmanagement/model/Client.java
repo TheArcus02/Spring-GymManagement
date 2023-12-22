@@ -1,10 +1,12 @@
 package com.mike.gymmanagement.model;
 
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "clients")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Client extends DbObject {
     private String surname;
     private double weight;
@@ -14,8 +16,8 @@ public class Client extends DbObject {
     @JoinColumn(name = "workout_plan_id", referencedColumnName = "id")
     private WorkoutPlan workoutPlan;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "trainer_id", referencedColumnName = "id")
+    @ManyToOne()
+//    @JoinColumn(name = "trainer_id", referencedColumnName = "id")
     private Trainer trainer;
 
     public Client(long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {

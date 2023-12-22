@@ -1,8 +1,7 @@
 package com.mike.gymmanagement.controller;
 
 import com.mike.gymmanagement.model.Client;
-import com.mike.gymmanagement.repository.ClientRepository;
-import com.mike.gymmanagement.repository.TrainerRepository;
+import com.mike.gymmanagement.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,40 +9,54 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/client")
 public class ClientController {
-    private final ClientRepository clientRepository;
-    private final TrainerRepository trainerRepository;
+
+    private final ClientService clientService;
 
     @Autowired
-    public ClientController(ClientRepository clientRepository, TrainerRepository trainerRepository) {
-        this.clientRepository = clientRepository;
-        this.trainerRepository = trainerRepository;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @GetMapping("")
-    public Iterable<Client> getAllClients() {
-        return clientRepository.findAll();
+    public ResponseEntity<Iterable<Client>> getAllClients() {
+        return ResponseEntity.ok().body(clientService.getAllClients());
     }
 
     @GetMapping("/{id}")
-    public Client getClientById(@PathVariable Long id) {
-        return clientRepository.findById(id).orElse(null);
+    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
+        Client client = clientService.getClientById(id);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(client);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
+        Client client = clientService.updateClient(id, updatedClient);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(client);
     }
 
     @PutMapping("/{clientId}/trainer/{trainerId}")
     public ResponseEntity<Client> assignTrainer(@PathVariable Long clientId, @PathVariable Long trainerId) {
-        return clientRepository.findById(clientId)
-                .map(client -> trainerRepository.findById(trainerId)
-                        .map(trainer -> {
-                            client.setTrainer(trainer);
-                            Client savedClient = clientRepository.save(client);
-                            return ResponseEntity.ok().body(savedClient);
-                        })
-                        .orElse(ResponseEntity.notFound().build()))
-                .orElse(ResponseEntity.notFound().build());
+        Client client = clientService.assignTrainer(clientId, trainerId);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(client);
     }
 
     @PostMapping("")
     public Client addClient(@RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.addClient(client);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+        clientService.deleteClient(id);
+        return ResponseEntity.noContent().build();
     }
 }
