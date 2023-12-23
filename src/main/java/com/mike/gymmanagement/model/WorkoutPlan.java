@@ -3,6 +3,9 @@ package com.mike.gymmanagement.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +13,8 @@ import java.util.Set;
 @Entity
 @Table(name = "workout_plans")
 public class WorkoutPlan extends DbObject {
+
+    @Size(min = 2, max = 100, message = "Description must be between 2 and 100 characters")
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -24,6 +29,8 @@ public class WorkoutPlan extends DbObject {
     @OneToMany(mappedBy = "workoutPlan", fetch = FetchType.EAGER)
     private Set<Client> clients = new HashSet<>();
 
+    @Min(value = 0, message = "Invalid difficulty")
+    @Max(value = 2, message = "Invalid difficulty")
     private DifficultyEnum difficulty;
 
 

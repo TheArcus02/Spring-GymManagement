@@ -3,6 +3,7 @@ package com.mike.gymmanagement.controller;
 
 import com.mike.gymmanagement.model.Trainer;
 import com.mike.gymmanagement.service.TrainerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,13 @@ public class TrainerController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Trainer> addTrainer(@RequestBody Trainer trainer) {
+    public ResponseEntity<Trainer> addTrainer(@RequestBody @Valid Trainer trainer) {
         Trainer savedTrainer = trainerService.addTrainer(trainer);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTrainer);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Trainer> updateTrainer(@PathVariable Long id, @RequestBody Trainer updatedTrainer) {
+    public ResponseEntity<Trainer> updateTrainer(@PathVariable Long id, @RequestBody @Valid Trainer updatedTrainer) {
         Trainer trainer = trainerService.updateTrainer(id, updatedTrainer);
         if (trainer == null) {
             return ResponseEntity.notFound().build();

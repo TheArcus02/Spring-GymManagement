@@ -1,6 +1,8 @@
 package com.mike.gymmanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @MappedSuperclass
 public abstract class DbObject {
@@ -10,6 +12,9 @@ public abstract class DbObject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long date;
+
+    @NotBlank(message = "Name cannot be empty")
+    @Size(max = 30, message = "Name cannot be longer than 30 characters")
     private String name;
 
     public DbObject(long date, String name) {

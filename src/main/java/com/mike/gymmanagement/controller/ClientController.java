@@ -2,6 +2,7 @@ package com.mike.gymmanagement.controller;
 
 import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.service.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +33,12 @@ public class ClientController {
     }
 
     @PostMapping("")
-    public Client addClient(@RequestBody Client client) {
+    public Client addClient(@RequestBody @Valid Client client) {
         return clientService.addClient(client);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody @Valid Client updatedClient) {
         Client client = clientService.updateClient(id, updatedClient);
         if (client == null) {
             return ResponseEntity.notFound().build();

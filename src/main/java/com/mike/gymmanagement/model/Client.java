@@ -3,13 +3,24 @@ package com.mike.gymmanagement.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "clients")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Client extends DbObject {
+
+    @NotBlank(message = "Surname cannot be empty")
+    @Size(max = 30, message = "Surname cannot be longer than 30 characters")
     private String surname;
+
+    @Min(value = 0, message = "Weight cannot be negative")
     private double weight;
+
+    @Email(message = "Invalid email address")
     private String email;
 
     @ManyToOne

@@ -3,6 +3,10 @@ package com.mike.gymmanagement.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +16,11 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Trainer extends DbObject {
 
+    @NotBlank(message = "Surname cannot be empty")
+    @Size(max = 30, message = "Surname cannot be longer than 30 characters")
     private String surname;
+
+    @Min(value = 0, message = "Salary cannot be negative")
     private double salary;
 
     @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

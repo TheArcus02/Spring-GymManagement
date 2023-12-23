@@ -3,6 +3,7 @@ package com.mike.gymmanagement.controller;
 import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.WorkoutPlan;
 import com.mike.gymmanagement.service.WorkoutPlanService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,12 @@ public class WorkoutPlanController {
     }
 
     @PostMapping("")
-    public WorkoutPlan addWorkoutPlan(@RequestBody WorkoutPlan workoutPlan) {
+    public WorkoutPlan addWorkoutPlan(@RequestBody @Valid WorkoutPlan workoutPlan) {
         return workoutPlanService.addWorkoutPlan(workoutPlan);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<WorkoutPlan> updateWorkoutPlan(@PathVariable Long id, @RequestBody WorkoutPlan updatedWorkoutPlan) {
+    public ResponseEntity<WorkoutPlan> updateWorkoutPlan(@PathVariable Long id, @RequestBody @Valid WorkoutPlan updatedWorkoutPlan) {
         WorkoutPlan workoutPlan = workoutPlanService.updateWorkoutPlan(id, updatedWorkoutPlan);
         if (workoutPlan == null) {
             return ResponseEntity.notFound().build();

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +13,13 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Exercise extends DbObject {
+
+    @Min(value = 0, message = "Invalid difficulty")
+    @Max(value = 2, message = "Invalid difficulty")
     private DifficultyEnum difficulty;
+
+    @Min(value = 0, message = "Invalid exercise category")
+    @Max(value = 3, message = "Invalid exercise category")
     private ExerciseCategoryEnum category;
 
     @ManyToOne(cascade = CascadeType.ALL)

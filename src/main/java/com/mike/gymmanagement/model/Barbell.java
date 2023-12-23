@@ -1,9 +1,12 @@
 package com.mike.gymmanagement.model;
 
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class Barbell extends Equipment {
+
+    @Min(value = 0, message = "Invalid weight")
     private int weight;
 
     public Barbell(long date, String name, boolean occupied, int weight) {
