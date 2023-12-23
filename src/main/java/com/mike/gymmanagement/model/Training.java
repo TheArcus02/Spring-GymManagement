@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import org.hibernate.jdbc.Work;
 
 import java.util.HashSet;
@@ -23,13 +24,17 @@ public class Training extends DbObject {
     )
     private Set<Exercise> exercises = new HashSet<>();
 
-    @ManyToMany(mappedBy = "trainings")
+    @ManyToMany(mappedBy = "trainings", fetch = FetchType.EAGER)
     private Set<WorkoutPlan> workoutPlans = new HashSet<>();
 
-    public Training(long date, String name, Set<Exercise> exercises, Set<WorkoutPlan> workoutPlans) {
+    @Size(min = 2, max = 100, message = "Description must be between 2 and 100 characters")
+    private String description;
+
+    public Training(long date, String name, Set<Exercise> exercises, Set<WorkoutPlan> workoutPlans, String description) {
         super(date, name);
         this.exercises = exercises;
         this.workoutPlans = workoutPlans;
+        this.description = description;
     }
 
     public Training() {
@@ -50,5 +55,13 @@ public class Training extends DbObject {
 
     public void setWorkoutPlans(Set<WorkoutPlan> workoutPlans) {
         this.workoutPlans = workoutPlans;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

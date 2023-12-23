@@ -1,5 +1,7 @@
 package com.mike.gymmanagement.service;
 
+import com.mike.gymmanagement.exception.NotFoundException;
+import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.model.Trainer;
 import com.mike.gymmanagement.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,8 @@ public class TrainerService {
     }
 
     public Trainer getTrainerById(Long id) {
-        return trainerRepository.findById(id).orElse(null);
+        return trainerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Trainer not found with id: " + id));
     }
 
     public Trainer addTrainer(Trainer trainer) {
@@ -30,23 +33,26 @@ public class TrainerService {
     }
 
     public Trainer updateTrainer(Long id, Trainer updatedTrainer) {
-        return trainerRepository.findById(id)
-                .map(existingTrainer -> {
-                    existingTrainer.setName(Optional.ofNullable(updatedTrainer.getName()).orElse(existingTrainer.getName()));
-                    existingTrainer.setSurname(Optional.ofNullable(updatedTrainer.getSurname()).orElse(existingTrainer.getSurname()));
+        Optional<Trainer> optionalTrainer = trainerRepository.findById(id);
 
-                    double updatedSalary = updatedTrainer.getSalary();
-                    if (updatedSalary != 0.0 && updatedSalary >= 0.0) {
-                        existingTrainer.setSalary(updatedSalary);
-                    }
-                    return trainerRepository.save(existingTrainer);
-                })
-                .orElse(null);
+        if (optionalTrainer.isPresent()) {
+            Trainer existingTrainer = optionalTrainer.get();
+
+            existingTrainer.setName(updatedTrainer.getName());
+            existingTrainer.setDate(updatedTrainer.getDate());
+            existingTrainer.setSurname(updatedTrainer.getSurname());
+            existingTrainer.setSalary(updatedTrainer.getSalary());
+
+            return trainerRepository.save(existingTrainer);
+        }
+
+        throw new NotFoundException("Trainer not found with id: " + id);
     }
 
     public void deleteTrainer(Long id) {
         if (trainerRepository.existsById(id)) {
             trainerRepository.deleteById(id);
         }
+        throw new NotFoundException("Trainer not found with id: " + id);
     }
 }

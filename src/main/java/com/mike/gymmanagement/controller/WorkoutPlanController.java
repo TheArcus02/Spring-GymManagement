@@ -38,8 +38,9 @@ public class WorkoutPlanController {
         return workoutPlanService.addWorkoutPlan(workoutPlan);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<WorkoutPlan> updateWorkoutPlan(@PathVariable Long id, @RequestBody @Valid WorkoutPlan updatedWorkoutPlan) {
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkoutPlan> updateWorkoutPlan(@PathVariable Long id,
+                                                         @RequestBody @Valid WorkoutPlan updatedWorkoutPlan) throws NotFoundException {
         WorkoutPlan workoutPlan = workoutPlanService.updateWorkoutPlan(id, updatedWorkoutPlan);
         if (workoutPlan == null) {
             return ResponseEntity.notFound().build();

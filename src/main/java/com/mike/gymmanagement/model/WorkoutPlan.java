@@ -29,8 +29,7 @@ public class WorkoutPlan extends DbObject {
     @OneToMany(mappedBy = "workoutPlan", fetch = FetchType.EAGER)
     private Set<Client> clients = new HashSet<>();
 
-    @Min(value = 0, message = "Invalid difficulty")
-    @Max(value = 2, message = "Invalid difficulty")
+    // not validated
     private DifficultyEnum difficulty;
 
 

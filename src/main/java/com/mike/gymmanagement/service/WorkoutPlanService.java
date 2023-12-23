@@ -1,12 +1,15 @@
 package com.mike.gymmanagement.service;
 
 import com.mike.gymmanagement.exception.NotFoundException;
+import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.model.Training;
 import com.mike.gymmanagement.model.WorkoutPlan;
 import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.WorkoutPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class WorkoutPlanService {
@@ -35,23 +38,20 @@ public class WorkoutPlanService {
     }
 
     public WorkoutPlan updateWorkoutPlan(Long id, WorkoutPlan updatedWorkoutPlan) {
-        return workoutPlanRepository.findById(id)
-                .map(workoutPlan -> {
-                    if (updatedWorkoutPlan.getName() != null) {
-                        workoutPlan.setName(updatedWorkoutPlan.getName());
-                    }
-                    if (updatedWorkoutPlan.getDescription() != null) {
-                        workoutPlan.setDescription(updatedWorkoutPlan.getDescription());
-                    }
-                    if (updatedWorkoutPlan.getDifficulty() != null) {
-                        workoutPlan.setDifficulty(updatedWorkoutPlan.getDifficulty());
-                    }
-                    if (updatedWorkoutPlan.getTrainings() != null) {
-                        workoutPlan.setTrainings(updatedWorkoutPlan.getTrainings());
-                    }
-                    return workoutPlanRepository.save(workoutPlan);
-                })
-                .orElse(null);
+        Optional<WorkoutPlan> optionalWorkoutPlan = workoutPlanRepository.findById(id);
+
+        if (optionalWorkoutPlan.isPresent()) {
+            WorkoutPlan existingWorkoutPlan = optionalWorkoutPlan.get();
+
+            existingWorkoutPlan.setName(updatedWorkoutPlan.getName());
+            existingWorkoutPlan.setDate(updatedWorkoutPlan.getDate());
+            existingWorkoutPlan.setDescription(updatedWorkoutPlan.getDescription());
+            existingWorkoutPlan.setDifficulty(updatedWorkoutPlan.getDifficulty());
+
+            return workoutPlanRepository.save(existingWorkoutPlan);
+        }
+
+        throw new NotFoundException("Client not found with id: " + id);
     }
 
     public WorkoutPlan assignTraining(Long workoutPlanId, Long trainingId) {
@@ -68,12 +68,12 @@ public class WorkoutPlanService {
     }
 
     public void deleteWorkoutPlan(Long workoutPlanId) {
-        WorkoutPlan workoutPlan = workoutPlanRepository.findById(workoutPlanId).orElse(null);
-        if (workoutPlan != null) {
-            workoutPlan.getClients().forEach(client -> {
-                client.setWorkoutPlan(null);
-                clientRepository.save(client);
-            });
+        WorkoutPlan workoutPlan = workoutPlanRepository.findById(workoutPlanId).
+                orElseThrow(() -> new NotFoundException("WorkoutPlan not found with id: " + workoutPlanId));
+
+        for (Client client : workoutPlan.getClients()) {
+            client.removeWorkoutPlan();
+            clientRepository.save(client);
 
             workoutPlanRepository.deleteById(workoutPlanId);
         }

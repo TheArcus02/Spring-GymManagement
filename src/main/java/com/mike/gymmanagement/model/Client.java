@@ -52,6 +52,10 @@ public class Client extends DbObject {
         exercise.freeEquipment();
     }
 
+    public void removeWorkoutPlan() {
+        this.workoutPlan = null;
+    }
+
     public WorkoutPlan getWorkoutPlan() {
         return workoutPlan;
     }

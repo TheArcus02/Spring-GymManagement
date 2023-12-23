@@ -1,11 +1,14 @@
 package com.mike.gymmanagement.service;
 
+import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.TrainerRepository;
 import com.mike.gymmanagement.repository.WorkoutPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -14,6 +17,7 @@ public class ClientService {
     private final TrainerRepository trainerRepository;
     private final WorkoutPlanRepository workoutPlanRepository;
 
+
     @Autowired
     public ClientService(ClientRepository clientRepository, TrainerRepository trainerRepository, WorkoutPlanRepository workoutPlanRepository) {
         this.clientRepository = clientRepository;
@@ -21,12 +25,14 @@ public class ClientService {
         this.workoutPlanRepository = workoutPlanRepository;
     }
 
+
     public Iterable<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
     public Client getClientById(Long id) {
-        return clientRepository.findById(id).orElse(null);
+        return clientRepository.findById(id).
+                orElseThrow(() -> new NotFoundException("Client not found with id: " + id));
     }
 
     public Client addClient(Client client) {
@@ -40,7 +46,7 @@ public class ClientService {
                             client.setTrainer(trainer);
                             return clientRepository.save(client);
                         }))
-                .orElse(null);
+                .orElseThrow(() -> new NotFoundException("Client or trainer not found"));
     }
 
     public Client assignWorkoutPlan(Long clientId, Long workoutPlanId) {
@@ -50,37 +56,29 @@ public class ClientService {
                             client.setWorkoutPlan(workoutPlan);
                             return clientRepository.save(client);
                         }))
-                .orElse(null);
+                .orElseThrow(() -> new NotFoundException("Client or workout plan not found"));
     }
 
 
     public Client updateClient(Long id, Client updatedClient) {
-        return clientRepository.findById(id)
-                .map(client -> {
-                    if (updatedClient.getName() != null) {
-                        client.setName(updatedClient.getName());
-                    }
-                    if (updatedClient.getSurname() != null) {
-                        client.setSurname(updatedClient.getSurname());
-                    }
-                    if (updatedClient.getWeight() != 0.0) {
-                        if (updatedClient.getWeight() < 0.0) {
-                            throw new IllegalArgumentException("Weight cannot be negative");
-                        }
-                        client.setWeight(updatedClient.getWeight());
-                    }
-                    if (updatedClient.getEmail() != null) {
-                        client.setEmail(updatedClient.getEmail());
-                    }
-                    if (updatedClient.getWorkoutPlan() != null) {
-                        client.setWorkoutPlan(updatedClient.getWorkoutPlan());
-                    }
-                    return clientRepository.save(client);
-                })
-                .orElse(null);
+        Optional<Client> optionalClient = clientRepository.findById(id);
+
+        if (optionalClient.isPresent()) {
+            Client existingClient = optionalClient.get();
+
+            existingClient.setName(updatedClient.getName());
+            existingClient.setDate(updatedClient.getDate());
+            existingClient.setSurname(updatedClient.getSurname());
+            existingClient.setWeight(updatedClient.getWeight());
+
+            return clientRepository.save(existingClient);
+        }
+
+        throw new NotFoundException("Client not found with id: " + id);
     }
 
     public void deleteClient(Long id) {
+        if (!clientRepository.existsById(id)) throw new NotFoundException("Client not found with id: " + id);
         clientRepository.deleteById(id);
     }
 

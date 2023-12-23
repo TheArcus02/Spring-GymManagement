@@ -1,5 +1,6 @@
 package com.mike.gymmanagement.controller;
 
+import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.Training;
 import com.mike.gymmanagement.service.TrainingService;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ public class TrainingController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Training> getTrainingById(@PathVariable Long id) {
+    public ResponseEntity<Training> getTrainingById(@PathVariable Long id) throws NotFoundException {
         Training training = trainingService.getTrainingById(id);
         if (training == null) {
             return ResponseEntity.notFound().build();
@@ -37,13 +38,14 @@ public class TrainingController {
         return ResponseEntity.ok(trainingService.addTraining(training));
     }
 
-    @PatchMapping("{id}")
-    public ResponseEntity<Training> updateTraining(@PathVariable Long id, @RequestBody @Valid Training updatedTraining) {
+    @PutMapping("{id}")
+    public ResponseEntity<Training> updateTraining(@PathVariable Long id,
+                                                   @RequestBody @Valid Training updatedTraining) throws NotFoundException {
         return ResponseEntity.ok(trainingService.updateTraining(id, updatedTraining));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTraining(@PathVariable Long id) throws NotFoundException {
         trainingService.deleteTraining(id);
         return ResponseEntity.noContent().build();
     }

@@ -8,6 +8,8 @@ import com.mike.gymmanagement.repository.WorkoutPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TrainingService {
 
@@ -34,17 +36,24 @@ public class TrainingService {
     }
 
     public Training updateTraining(Long id, Training updatedTraining) {
-        return trainingRepository.findById(id)
-                .map(training -> {
-                    if (updatedTraining.getName() != null) {
-                        training.setName(updatedTraining.getName());
-                    }
-                    return trainingRepository.save(training);
-                })
-                .orElse(null);
+        Optional<Training> optionalTraining = trainingRepository.findById(id);
+
+        if (optionalTraining.isPresent()) {
+            Training existingTraining = optionalTraining.get();
+
+            existingTraining.setName(updatedTraining.getName());
+            existingTraining.setDescription(updatedTraining.getDescription());
+
+            return trainingRepository.save(existingTraining);
+        }
+
+        throw new NotFoundException("Training not found with id: " + id);
     }
 
     public void deleteTraining(Long id) {
+        if (!workoutPlanRepository.existsById(id)) {
+            throw new NotFoundException("Training not found with id: " + id);
+        }
         trainingRepository.deleteById(id);
     }
 }

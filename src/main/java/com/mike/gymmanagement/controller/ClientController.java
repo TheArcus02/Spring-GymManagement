@@ -1,5 +1,6 @@
 package com.mike.gymmanagement.controller;
 
+import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.service.ClientService;
 import jakarta.validation.Valid;
@@ -37,8 +38,9 @@ public class ClientController {
         return clientService.addClient(client);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody @Valid Client updatedClient) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long id,
+                                               @RequestBody @Valid Client updatedClient) throws NotFoundException {
         Client client = clientService.updateClient(id, updatedClient);
         if (client == null) {
             return ResponseEntity.notFound().build();
@@ -47,7 +49,8 @@ public class ClientController {
     }
 
     @PutMapping("/{clientId}/trainer/{trainerId}")
-    public ResponseEntity<Client> assignTrainer(@PathVariable Long clientId, @PathVariable Long trainerId) {
+    public ResponseEntity<Client> assignTrainer(@PathVariable Long clientId,
+                                                @PathVariable Long trainerId) throws NotFoundException {
         Client client = clientService.assignTrainer(clientId, trainerId);
         if (client == null) {
             return ResponseEntity.notFound().build();
@@ -56,7 +59,8 @@ public class ClientController {
     }
 
     @PutMapping("/{clientId}/workout-plan/{workoutPlanId}")
-    public ResponseEntity<Client> assignWorkoutPlan(@PathVariable Long clientId, @PathVariable Long workoutPlanId) {
+    public ResponseEntity<Client> assignWorkoutPlan(@PathVariable Long clientId,
+                                                    @PathVariable Long workoutPlanId) throws NotFoundException {
         Client client = clientService.assignWorkoutPlan(clientId, workoutPlanId);
         if (client == null) {
             return ResponseEntity.notFound().build();
@@ -66,7 +70,7 @@ public class ClientController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id) throws NotFoundException {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
     }
