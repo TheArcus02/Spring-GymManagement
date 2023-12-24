@@ -1,11 +1,13 @@
 package com.mike.gymmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Min;
 
 @Entity
+@JsonTypeName("CardioExercise")
 public class CardioExercise extends Exercise {
 
     @Min(value = 1, message = "Invalid duration")
@@ -21,7 +23,6 @@ public class CardioExercise extends Exercise {
     }
 
     public CardioExercise() {
-
     }
 
     public int getDuration() {

@@ -1,8 +1,6 @@
 package com.mike.gymmanagement;
 
-import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.model.Trainer;
-import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.TrainerRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +18,6 @@ public class GymManagementApplication {
 
         TrainerRepository trainerRepository =
                 configurableApplicationContext.getBean(TrainerRepository.class);
-
-        ClientRepository clientRepository =
-                configurableApplicationContext.getBean(ClientRepository.class);
 
         Trainer trainer = new Trainer(1, "Mike",
                 "Smith", 1000);

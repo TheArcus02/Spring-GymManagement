@@ -49,6 +49,10 @@ public class Training extends DbObject {
         this.exercises = exercises;
     }
 
+    public void addExercise(Exercise exercise) {
+        this.exercises.add(exercise);
+    }
+
     public Set<WorkoutPlan> getWorkoutPlans() {
         return workoutPlans;
     }

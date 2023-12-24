@@ -1,25 +1,32 @@
 package com.mike.gymmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = StrengthExercise.class, name = "StrengthExercise"),
+        @JsonSubTypes.Type(value = CardioExercise.class, name = "CardioExercise")
+})
 public abstract class Exercise extends DbObject {
 
-    @Min(value = 0, message = "Invalid difficulty")
-    @Max(value = 2, message = "Invalid difficulty")
+    // no validation
     private DifficultyEnum difficulty;
 
-    @Min(value = 0, message = "Invalid exercise category")
-    @Max(value = 3, message = "Invalid exercise category")
+    // no validation
     private ExerciseCategoryEnum category;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -30,16 +37,19 @@ public abstract class Exercise extends DbObject {
     @ManyToMany(mappedBy = "exercises")
     private Set<Training> trainings = new HashSet<>();
 
+    @NotBlank(message = "Type is mandatory")
+    @JsonProperty
+    private String type;
+
+
     public Exercise(long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment) {
         super(date, name);
         this.difficulty = difficulty;
         this.category = category;
         this.equipment = equipment;
-
     }
 
     public Exercise() {
-
     }
 
     public void occupyEquipment() {
@@ -74,5 +84,23 @@ public abstract class Exercise extends DbObject {
         this.equipment = equipment;
     }
 
+    public Set<Training> getTrainings() {
+        return trainings;
+    }
 
+    public void setTrainings(Set<Training> trainings) {
+        this.trainings = trainings;
+    }
+
+    public void addTraining(Training training) {
+        this.trainings.add(training);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
