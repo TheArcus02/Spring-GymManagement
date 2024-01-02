@@ -1,5 +1,6 @@
 package com.mike.gymmanagement.controller;
 
+import com.mike.gymmanagement.exception.InvalidUpdateException;
 import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.CardioExercise;
 import com.mike.gymmanagement.model.Exercise;
@@ -7,7 +8,7 @@ import com.mike.gymmanagement.model.StrengthExercise;
 import com.mike.gymmanagement.service.ExerciseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -57,8 +58,14 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}")
-    public Exercise updateExercise(@PathVariable long id, @RequestBody @Valid Exercise exercise) throws NotFoundException, MethodArgumentNotValidException {
+    public Exercise updateExercise(@PathVariable long id, @RequestBody @Valid Exercise exercise) throws NotFoundException, InvalidUpdateException {
         return exerciseService.updateExercise(id, exercise);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteExercise(@PathVariable long id) throws NotFoundException {
+        exerciseService.deleteExercise(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

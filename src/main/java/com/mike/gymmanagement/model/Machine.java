@@ -2,30 +2,27 @@ package com.mike.gymmanagement.model;
 
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 @Entity
 public class Machine extends Equipment {
-    
-    @Min(value = 0, message = "Invalid exercise category")
-    @Max(value = 3, message = "Invalid exercise category")
-    private ExerciseCategoryEnum type;
 
-    public Machine(long date, String name, boolean occupied, ExerciseCategoryEnum type) {
+    // No validation
+    private ExerciseCategoryEnum category;
+
+    public Machine(long date, String name, boolean occupied, ExerciseCategoryEnum category) {
         super(date, name, occupied);
-        this.type = type;
+        this.category = category;
     }
 
     public Machine() {
 
     }
 
-    public ExerciseCategoryEnum getType() {
-        return type;
+    public ExerciseCategoryEnum getCategory() {
+        return category;
     }
 
-    public void setType(ExerciseCategoryEnum type) {
-        this.type = type;
+    public void setCategory(ExerciseCategoryEnum type) {
+        this.category = type;
     }
 }

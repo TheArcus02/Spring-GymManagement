@@ -1,10 +1,14 @@
 package com.mike.gymmanagement.repository;
 
 import com.mike.gymmanagement.model.Equipment;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface EquipmentRepository extends CrudRepository<Equipment, Long> {
+import java.util.List;
 
+@Repository
+public interface EquipmentRepository<T extends Equipment> extends CrudRepository<T, Long> {
+    @Query("SELECT e FROM Equipment e WHERE TYPE(e) IN (Dumbells , Barbell, Machine)")
+    List<Equipment> findAllEquipment();
 }

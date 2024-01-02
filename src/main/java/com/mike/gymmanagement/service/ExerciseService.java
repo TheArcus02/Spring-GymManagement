@@ -38,17 +38,13 @@ public class ExerciseService {
                 .orElseThrow(() -> new NotFoundException("Invalid exercise Id:" + id));
     }
 
-    public Iterable<CardioExercise> getCardioExercises() {
+    public Iterable<CardioExercise> getAllCardioExercises() {
         return cardioExerciseRepository.findAll();
     }
 
     public CardioExercise getCardioExerciseById(long id) {
         return cardioExerciseRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Invalid exercise Id:" + id));
-    }
-
-    public Iterable<CardioExercise> getAllCardioExercises() {
-        return cardioExerciseRepository.findAll();
     }
 
     public Exercise getExerciseById(long id) {
@@ -67,22 +63,23 @@ public class ExerciseService {
             case "StrengthExercise":
                 if (exercise instanceof StrengthExercise) {
                     return exerciseRepository.save(updateStrengthExercise((StrengthExercise) existingExercise, (StrengthExercise) exercise));
-                } else {
-                    throw new InvalidUpdateException("Invalid update for StrengthExercise type");
                 }
+                throw new InvalidUpdateException("Invalid update for StrengthExercise type");
             case "CardioExercise":
                 if (exercise instanceof CardioExercise) {
                     return exerciseRepository.save(updateCardioExercise((CardioExercise) existingExercise, (CardioExercise) exercise));
-                } else {
-                    throw new InvalidUpdateException("Invalid update for CardioExercise type");
                 }
+                throw new InvalidUpdateException("Invalid update for CardioExercise type");
             default:
-                throw new InvalidUpdateException("Unknown exercise type");
+                throw new InvalidUpdateException("Unknown exercise type for exercise Id:" + id);
         }
 
     }
 
-    public void deleteExerciseById(long id) {
+    public void deleteExercise(long id) {
+        if (!exerciseRepository.existsById(id)) {
+            throw new NotFoundException("Exercise not found with id: " + id);
+        }
         exerciseRepository.deleteById(id);
     }
 

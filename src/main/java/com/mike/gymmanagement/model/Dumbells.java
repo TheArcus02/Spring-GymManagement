@@ -7,24 +7,24 @@ import jakarta.validation.constraints.Min;
 public class Dumbells extends Equipment {
 
     @Min(value = 0, message = "Invalid weight")
-    private int pairWeight;
+    private int weight;
 
-    public Dumbells(long date, String name, boolean occupied, int pairWeight) {
+    public Dumbells(long date, String name, boolean occupied, int weight) {
         super(date, name, occupied);
-        this.pairWeight = pairWeight;
+        this.weight = weight;
     }
 
     public Dumbells() {
 
     }
 
-    public int getPairWeight() {
-        return pairWeight;
+    public int getWeight() {
+        return weight;
     }
 
-    public void setPairWeight(int pairWeight) {
+    public void setWeight(int pairWeight) {
         if (pairWeight > 0) {
-            this.pairWeight = pairWeight;
+            this.weight = pairWeight;
         }
     }
 }
