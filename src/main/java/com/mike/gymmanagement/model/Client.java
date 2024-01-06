@@ -63,11 +63,6 @@ public class Client extends DbObject {
         trainer.addClient(this);
     }
 
-    public void removeTrainer() {
-        this.trainer = null;
-    }
-
-
     public void removeWorkoutPlan() {
         this.workoutPlan = null;
     }

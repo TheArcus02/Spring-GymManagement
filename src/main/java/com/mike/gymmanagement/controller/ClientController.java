@@ -49,7 +49,7 @@ public class ClientController {
         return ResponseEntity.ok().body(client);
     }
 
-    @PutMapping("/{clientId}/trainer/{trainerId}")
+    @PatchMapping("/{clientId}/trainer/{trainerId}")
     public ResponseEntity<Client> assignTrainer(@PathVariable Long clientId,
                                                 @PathVariable Long trainerId) throws NotFoundException {
         Client client = clientService.assignTrainer(clientId, trainerId);
@@ -59,7 +59,7 @@ public class ClientController {
         return ResponseEntity.ok().body(client);
     }
 
-    @PutMapping("/{clientId}/trainer")
+    @PatchMapping("/{clientId}/trainer")
     public ResponseEntity<Client> removeTrainer(@PathVariable Long clientId) throws NotFoundException {
         Client client = clientService.removeTrainer(clientId);
         if (client == null) {
@@ -68,7 +68,7 @@ public class ClientController {
         return ResponseEntity.ok().body(client);
     }
 
-    @PutMapping("/{clientId}/workout-plan/{workoutPlanId}")
+    @PatchMapping("/{clientId}/workout-plan/{workoutPlanId}")
     public ResponseEntity<Client> assignWorkoutPlan(@PathVariable Long clientId,
                                                     @PathVariable Long workoutPlanId) throws NotFoundException {
         Client client = clientService.assignWorkoutPlan(clientId, workoutPlanId);

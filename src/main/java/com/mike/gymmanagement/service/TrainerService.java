@@ -50,9 +50,11 @@ public class TrainerService {
     }
 
     public void deleteTrainer(Long id) {
-        if (!trainerRepository.existsById(id)) {
-            throw new NotFoundException("Trainer not found with id: " + id);
-        }
+        Trainer existingTrainer = trainerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Trainer not found with id: " + id));
+        existingTrainer.getClients().forEach(client -> client.setTrainer(null));
+
+        trainerRepository.save(existingTrainer);
         trainerRepository.deleteById(id);
     }
 }

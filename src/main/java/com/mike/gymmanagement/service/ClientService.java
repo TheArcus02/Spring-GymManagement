@@ -54,7 +54,7 @@ public class ClientService {
         Client existingClient = clientRepository.findById(clientId)
                 .orElseThrow(() -> new NotFoundException("Client not found with id: " + clientId));
 
-        existingClient.removeTrainer();
+        existingClient.setTrainer(null);
         return clientRepository.save(existingClient);
     }
 
@@ -87,7 +87,12 @@ public class ClientService {
     }
 
     public void deleteClient(Long id) {
-        if (!clientRepository.existsById(id)) throw new NotFoundException("Client not found with id: " + id);
+        Client existingClient = clientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Client not found with id: " + id));
+
+        existingClient.setTrainer(null);
+        clientRepository.save(existingClient);
+
         clientRepository.deleteById(id);
     }
 

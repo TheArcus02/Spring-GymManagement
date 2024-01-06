@@ -25,7 +25,7 @@ public class Trainer extends DbObject {
     private double salary;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Client> clients = new HashSet<>();
 
     public Trainer(long date, String name, String surname, double salary) {
