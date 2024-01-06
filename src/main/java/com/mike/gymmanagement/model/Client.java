@@ -49,6 +49,7 @@ public class Client extends DbObject {
     }
 
     //    Start trainng and stop training
+
     public void startTraining(Exercise exercise) {
         exercise.occupyEquipment();
     }
@@ -57,10 +58,21 @@ public class Client extends DbObject {
         exercise.freeEquipment();
     }
 
+    public void assignTrainer(Trainer trainer) {
+        this.trainer = trainer;
+        trainer.addClient(this);
+    }
+
+    public void removeTrainer() {
+        this.trainer = null;
+    }
+
+
     public void removeWorkoutPlan() {
         this.workoutPlan = null;
     }
 
+    //   Getters and setters
     public WorkoutPlan getWorkoutPlan() {
         return workoutPlan;
     }
@@ -95,11 +107,6 @@ public class Client extends DbObject {
 
     public Trainer getTrainer() {
         return trainer;
-    }
-
-    public void assignTrainer(Trainer trainer) {
-        this.trainer = trainer;
-        trainer.addClient(this);
     }
 
     public void setTrainer(Trainer trainer) {

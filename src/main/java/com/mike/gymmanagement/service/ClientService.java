@@ -50,6 +50,14 @@ public class ClientService {
         return clientRepository.save(existingClient);
     }
 
+    public Client removeTrainer(Long clientId) {
+        Client existingClient = clientRepository.findById(clientId)
+                .orElseThrow(() -> new NotFoundException("Client not found with id: " + clientId));
+
+        existingClient.removeTrainer();
+        return clientRepository.save(existingClient);
+    }
+
     public Client assignWorkoutPlan(Long clientId, Long workoutPlanId) {
         return clientRepository.findById(clientId)
                 .flatMap(client -> workoutPlanRepository.findById(workoutPlanId)
