@@ -1,5 +1,6 @@
 package com.mike.gymmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -27,9 +28,13 @@ public class Client extends DbObject {
     @JoinColumn(name = "workout_plan_id", referencedColumnName = "id")
     private WorkoutPlan workoutPlan;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "trainer_id", referencedColumnName = "id")
     private Trainer trainer;
+
+    @Column(name = "trainer_id", insertable = false, updatable = false)
+    private Long trainerId;
 
     public Client(long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
         super(date, name);
@@ -92,7 +97,20 @@ public class Client extends DbObject {
         return trainer;
     }
 
+    public void assignTrainer(Trainer trainer) {
+        this.trainer = trainer;
+        trainer.addClient(this);
+    }
+
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
+    }
+
+    public Long getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(Long trainerId) {
+        this.trainerId = trainerId;
     }
 }

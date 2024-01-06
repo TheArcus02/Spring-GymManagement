@@ -1,6 +1,7 @@
 package com.mike.gymmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -23,6 +24,7 @@ public class Trainer extends DbObject {
     @Min(value = 0, message = "Salary cannot be negative")
     private double salary;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Client> clients = new HashSet<>();
 

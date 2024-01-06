@@ -2,6 +2,7 @@ package com.mike.gymmanagement.service;
 
 import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.Client;
+import com.mike.gymmanagement.model.Trainer;
 import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.TrainerRepository;
 import com.mike.gymmanagement.repository.WorkoutPlanRepository;
@@ -40,13 +41,13 @@ public class ClientService {
     }
 
     public Client assignTrainer(Long clientId, Long trainerId) {
-        return clientRepository.findById(clientId)
-                .flatMap(client -> trainerRepository.findById(trainerId)
-                        .map(trainer -> {
-                            client.setTrainer(trainer);
-                            return clientRepository.save(client);
-                        }))
-                .orElseThrow(() -> new NotFoundException("Client or trainer not found"));
+        Client existingClient = clientRepository.findById(clientId)
+                .orElseThrow(() -> new NotFoundException("Client not found with id: " + clientId));
+        Trainer existingTrainer = trainerRepository.findById(trainerId)
+                .orElseThrow(() -> new NotFoundException("Trainer not found with id: " + trainerId));
+
+        existingClient.assignTrainer(existingTrainer);
+        return clientRepository.save(existingClient);
     }
 
     public Client assignWorkoutPlan(Long clientId, Long workoutPlanId) {
