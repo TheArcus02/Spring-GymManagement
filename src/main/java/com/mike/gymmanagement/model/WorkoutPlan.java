@@ -56,6 +56,10 @@ public class WorkoutPlan extends DbObject {
         this.trainings.add(training);
     }
 
+    public void removeTraining(Training training) {
+        this.trainings.remove(training);
+    }
+
     public String getDescription() {
         return description;
     }
@@ -70,6 +74,14 @@ public class WorkoutPlan extends DbObject {
 
     public void setClients(Set<Client> clients) {
         this.clients = clients;
+    }
+
+    public void addClient(Client client) {
+        this.clients.add(client);
+    }
+
+    public void removeClient(Client client) {
+        this.clients.remove(client);
     }
 
     public DifficultyEnum getDifficulty() {

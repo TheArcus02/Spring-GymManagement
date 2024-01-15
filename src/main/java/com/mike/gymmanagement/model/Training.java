@@ -1,6 +1,7 @@
 package com.mike.gymmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ public class Training extends DbObject {
     )
     private Set<Exercise> exercises = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "trainings", fetch = FetchType.EAGER)
     private Set<WorkoutPlan> workoutPlans = new HashSet<>();
 
@@ -38,16 +40,29 @@ public class Training extends DbObject {
 
     }
 
+    public void addExercise(Exercise exercise) {
+        this.exercises.add(exercise);
+    }
+
+    public void removeExercise(Exercise exercise) {
+        this.exercises.remove(exercise);
+    }
+
+    public void addWorkoutPlan(WorkoutPlan workoutPlan) {
+        this.workoutPlans.add(workoutPlan);
+    }
+
+    public void removeWorkoutPlan(WorkoutPlan workoutPlan) {
+        this.workoutPlans.remove(workoutPlan);
+    }
+
+    // Getters and setters
     public Set<Exercise> getExercises() {
         return exercises;
     }
 
     public void setExercises(Set<Exercise> exercises) {
         this.exercises = exercises;
-    }
-
-    public void addExercise(Exercise exercise) {
-        this.exercises.add(exercise);
     }
 
     public Set<WorkoutPlan> getWorkoutPlans() {

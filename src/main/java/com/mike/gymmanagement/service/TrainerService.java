@@ -3,6 +3,7 @@ package com.mike.gymmanagement.service;
 import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.model.Trainer;
+import com.mike.gymmanagement.repository.ClientRepository;
 import com.mike.gymmanagement.repository.TrainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class TrainerService {
 
     private final TrainerRepository trainerRepository;
+    private final ClientRepository clientRepository;
 
     @Autowired
-    public TrainerService(TrainerRepository trainerRepository) {
+    public TrainerService(TrainerRepository trainerRepository, ClientRepository clientRepository) {
         this.trainerRepository = trainerRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Iterable<Trainer> getAllTrainers() {
@@ -47,6 +50,19 @@ public class TrainerService {
         }
 
         throw new NotFoundException("Trainer not found with id: " + id);
+    }
+
+    public Trainer assignClient(Long trainerId, Long clientId) {
+        Trainer trainer = trainerRepository.findById(trainerId)
+                .orElseThrow(() -> new NotFoundException("Trainer not found with id: " + trainerId));
+
+        Client client = clientRepository.findById(clientId).
+                orElseThrow(() -> new NotFoundException("Client not found with id: " + clientId));
+
+        trainer.addClient(client);
+        client.setTrainer(trainer);
+
+        return trainerRepository.save(trainer);
     }
 
     public void deleteTrainer(Long id) {

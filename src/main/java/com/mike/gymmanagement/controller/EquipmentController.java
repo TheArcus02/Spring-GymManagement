@@ -22,23 +22,27 @@ public class EquipmentController {
     }
 
     @GetMapping("")
-    public Iterable<Equipment> getAllEquipment() {
-        return equipmentService.getAllEquipment();
+    public ResponseEntity<Iterable<Equipment>> getAllEquipment() {
+        return ResponseEntity.ok(equipmentService.getAllEquipment());
     }
 
     @GetMapping("/{id}")
-    public Equipment getEquipmentById(@PathVariable long id) throws NotFoundException {
-        return equipmentService.getEquipmentById(id);
+    public ResponseEntity<Equipment> getEquipmentById(@PathVariable long id) throws NotFoundException {
+        Equipment equipment = equipmentService.getEquipmentById(id);
+        if (equipment == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(equipment);
     }
 
     @PostMapping("")
-    public Equipment saveEquipment(@RequestBody @Valid Equipment equipment) {
-        return equipmentService.saveEquipment(equipment);
+    public ResponseEntity<Equipment> saveEquipment(@RequestBody @Valid Equipment equipment) {
+        return ResponseEntity.ok(equipmentService.saveEquipment(equipment));
     }
 
     @PutMapping("/{id}")
-    public Equipment updateEquipment(@PathVariable long id, @RequestBody @Valid Equipment equipment) throws NotFoundException, InvalidUpdateException {
-        return equipmentService.updateEquipment(id, equipment);
+    public ResponseEntity<Equipment> updateEquipment(@PathVariable long id, @RequestBody @Valid Equipment equipment) throws NotFoundException, InvalidUpdateException {
+        return ResponseEntity.ok(equipmentService.updateEquipment(id, equipment));
     }
 
     @DeleteMapping("/{id}")

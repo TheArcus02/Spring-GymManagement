@@ -39,28 +39,33 @@ public class ExerciseController {
     }
 
     @GetMapping("/strength/{id}")
-    public StrengthExercise getStrengthExerciseById(@PathVariable long id) throws NotFoundException {
-        return exerciseService.getStrengthExerciseById(id);
+    public ResponseEntity<StrengthExercise> getStrengthExerciseById(@PathVariable long id) throws NotFoundException {
+        return ResponseEntity.ok(exerciseService.getStrengthExerciseById(id));
     }
 
     @GetMapping("/cardio")
-    public Iterable<CardioExercise> getAllCardioExercises() {
-        return exerciseService.getAllCardioExercises();
+    public ResponseEntity<Iterable<CardioExercise>> getAllCardioExercises() {
+        return ResponseEntity.ok(exerciseService.getAllCardioExercises());
     }
 
     @GetMapping("/cardio/{id}")
-    public CardioExercise getCardioExerciseById(@PathVariable long id) throws NotFoundException {
-        return exerciseService.getCardioExerciseById(id);
+    public ResponseEntity<CardioExercise> getCardioExerciseById(@PathVariable long id) throws NotFoundException {
+        return ResponseEntity.ok(exerciseService.getCardioExerciseById(id));
     }
 
     @PostMapping("")
-    public Exercise saveExercise(@RequestBody @Valid Exercise exercise) {
-        return exerciseService.saveExercise(exercise);
+    public ResponseEntity<Exercise> saveExercise(@RequestBody @Valid Exercise exercise) {
+        return ResponseEntity.ok(exerciseService.saveExercise(exercise));
     }
 
     @PutMapping("/{id}")
-    public Exercise updateExercise(@PathVariable long id, @RequestBody @Valid Exercise exercise) throws NotFoundException, InvalidUpdateException {
-        return exerciseService.updateExercise(id, exercise);
+    public ResponseEntity<Exercise> updateExercise(@PathVariable long id, @RequestBody @Valid Exercise exercise) throws NotFoundException, InvalidUpdateException {
+        return ResponseEntity.ok(exerciseService.updateExercise(id, exercise));
+    }
+
+    @PatchMapping("/{exerciseId}/equipment/{equipmentId}")
+    public ResponseEntity<Exercise> assignEquipment(@PathVariable long exerciseId, @PathVariable long equipmentId) throws NotFoundException {
+        return ResponseEntity.ok(exerciseService.assignEquipment(exerciseId, equipmentId));
     }
 
     @DeleteMapping("/{id}")

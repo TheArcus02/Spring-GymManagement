@@ -52,6 +52,16 @@ public class TrainerController {
         return ResponseEntity.ok().body(trainer);
     }
 
+    @PatchMapping("/{trainerId}/client/{clientId}")
+    public ResponseEntity<Trainer> assignClient(@PathVariable Long trainerId,
+                                                @PathVariable Long clientId) throws NotFoundException {
+        Trainer trainer = trainerService.assignClient(trainerId, clientId);
+        if (trainer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(trainer);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrainer(@PathVariable Long id) throws NotFoundException {
         trainerService.deleteTrainer(id);

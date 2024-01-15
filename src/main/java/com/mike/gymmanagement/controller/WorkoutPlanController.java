@@ -49,7 +49,7 @@ public class WorkoutPlanController {
         return ResponseEntity.ok().body(workoutPlan);
     }
 
-    @PutMapping("/{workoutPlanId}/training/{trainingId}")
+    @PatchMapping("/{workoutPlanId}/training/{trainingId}")
     public ResponseEntity<WorkoutPlan> assignTraining(@PathVariable Long workoutPlanId, @PathVariable Long trainingId) throws NotFoundException {
         WorkoutPlan workoutPlan = workoutPlanService.assignTraining(workoutPlanId, trainingId);
         if (workoutPlan == null) {

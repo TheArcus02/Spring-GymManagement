@@ -68,15 +68,15 @@ public class WorkoutPlanService {
     }
 
     public void deleteWorkoutPlan(Long workoutPlanId) {
-        WorkoutPlan workoutPlan = workoutPlanRepository.findById(workoutPlanId).
+        WorkoutPlan existingWorkoutPlan = workoutPlanRepository.findById(workoutPlanId).
                 orElseThrow(() -> new NotFoundException("WorkoutPlan not found with id: " + workoutPlanId));
 
-        for (Client client : workoutPlan.getClients()) {
-            client.removeWorkoutPlan();
-            clientRepository.save(client);
+        existingWorkoutPlan.getClients().forEach(Client::removeWorkoutPlan);
+        existingWorkoutPlan.getTrainings().forEach(training -> training.removeWorkoutPlan(existingWorkoutPlan));
 
-            workoutPlanRepository.deleteById(workoutPlanId);
-        }
+        workoutPlanRepository.save(existingWorkoutPlan);
+
+        workoutPlanRepository.deleteById(workoutPlanId);
     }
 
 }

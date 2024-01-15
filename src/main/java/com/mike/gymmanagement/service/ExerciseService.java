@@ -3,9 +3,11 @@ package com.mike.gymmanagement.service;
 import com.mike.gymmanagement.exception.InvalidUpdateException;
 import com.mike.gymmanagement.exception.NotFoundException;
 import com.mike.gymmanagement.model.CardioExercise;
+import com.mike.gymmanagement.model.Equipment;
 import com.mike.gymmanagement.model.Exercise;
 import com.mike.gymmanagement.model.StrengthExercise;
 import com.mike.gymmanagement.repository.CardioExerciseRepository;
+import com.mike.gymmanagement.repository.EquipmentRepository;
 import com.mike.gymmanagement.repository.ExerciseRepository;
 import com.mike.gymmanagement.repository.StrengthExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,14 @@ public class ExerciseService {
     private final StrengthExerciseRepository strengthExerciseRepository;
     private final CardioExerciseRepository cardioExerciseRepository;
 
+    private final EquipmentRepository<Equipment> equipmentRepository;
+
     @Autowired
-    public ExerciseService(ExerciseRepository<Exercise> exerciseRepository, StrengthExerciseRepository strengthExerciseRepository, CardioExerciseRepository cardioExerciseRepository) {
+    public ExerciseService(ExerciseRepository<Exercise> exerciseRepository, StrengthExerciseRepository strengthExerciseRepository, CardioExerciseRepository cardioExerciseRepository, EquipmentRepository<Equipment> equipmentRepository) {
         this.exerciseRepository = exerciseRepository;
         this.strengthExerciseRepository = strengthExerciseRepository;
         this.cardioExerciseRepository = cardioExerciseRepository;
+        this.equipmentRepository = equipmentRepository;
     }
 
     public Iterable<Exercise> getAllExercises() {
@@ -74,6 +79,15 @@ public class ExerciseService {
                 throw new InvalidUpdateException("Unknown exercise type for exercise Id:" + id);
         }
 
+    }
+
+    public Exercise assignEquipment(long exerciseId, long equipmentId) {
+        Exercise exercise = exerciseRepository.findById(exerciseId)
+                .orElseThrow(() -> new NotFoundException("Exercise not found with id: " + exerciseId));
+        Equipment equipment = equipmentRepository.findById(equipmentId)
+                .orElseThrow(() -> new NotFoundException("Equipment not found with id: " + equipmentId));
+        exercise.setEquipment(equipment);
+        return exerciseRepository.save(exercise);
     }
 
     public void deleteExercise(long id) {

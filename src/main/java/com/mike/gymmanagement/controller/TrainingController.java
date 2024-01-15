@@ -45,6 +45,12 @@ public class TrainingController {
         return ResponseEntity.ok(trainingService.updateTraining(id, updatedTraining));
     }
 
+    @PatchMapping("{trainingId}/exercise/{exerciseId}")
+    public ResponseEntity<Training> assignExercise(@PathVariable Long trainingId,
+                                                   @PathVariable Long exerciseId) throws NotFoundException {
+        return ResponseEntity.ok(trainingService.assignExercise(trainingId, exerciseId));
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) throws NotFoundException {
         trainingService.deleteTraining(id);

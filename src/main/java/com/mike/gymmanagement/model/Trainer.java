@@ -38,12 +38,12 @@ public class Trainer extends DbObject {
         super();
     }
 
-    public void assignWorkoutPlan(Client client, WorkoutPlan workoutPlan) {
-        client.setWorkoutPlan(workoutPlan);
-    }
-
     public void addClient(Client client) {
         clients.add(client);
+    }
+
+    public void removeClient(Client client) {
+        clients.remove(client);
     }
 
     public Set<Client> getClients() {
