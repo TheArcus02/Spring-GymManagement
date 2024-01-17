@@ -5,7 +5,9 @@ import com.mike.gymmanagement.model.Client;
 import com.mike.gymmanagement.model.Training;
 import com.mike.gymmanagement.model.WorkoutPlan;
 import com.mike.gymmanagement.repository.ClientRepository;
+import com.mike.gymmanagement.repository.TrainingRepository;
 import com.mike.gymmanagement.repository.WorkoutPlanRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +17,13 @@ import java.util.Optional;
 public class WorkoutPlanService {
 
     private final WorkoutPlanRepository workoutPlanRepository;
-    private final ClientRepository clientRepository;
-    private final TrainingService trainingService;
+
+    private final TrainingRepository trainingRepository;
 
     @Autowired
-    public WorkoutPlanService(WorkoutPlanRepository workoutPlanRepository, ClientRepository clientRepository, TrainingService trainingService) {
+    public WorkoutPlanService(WorkoutPlanRepository workoutPlanRepository, TrainingRepository trainingRepository) {
         this.workoutPlanRepository = workoutPlanRepository;
-        this.clientRepository = clientRepository;
-        this.trainingService = trainingService;
+        this.trainingRepository = trainingRepository;
     }
 
     public Iterable<WorkoutPlan> getAllWorkoutPlans() {
@@ -58,13 +59,27 @@ public class WorkoutPlanService {
         WorkoutPlan workoutPlan = workoutPlanRepository.findById(workoutPlanId)
                 .orElseThrow(() -> new NotFoundException("WorkoutPlan not found with id: " + workoutPlanId));
 
-        try {
-            Training training = trainingService.getTrainingById(trainingId);
-            workoutPlan.addTraining(training);
-            return workoutPlanRepository.save(workoutPlan);
-        } catch (NotFoundException e) {
-            throw new NotFoundException("Training not found with id: " + trainingId);
-        }
+        Training training = trainingRepository.findById(trainingId).orElseThrow(() -> new NotFoundException("Training not found with id: " + trainingId));
+
+        workoutPlan.addTraining(training);
+
+        return workoutPlanRepository.save(workoutPlan);
+    }
+
+    @Transactional
+    public WorkoutPlan unassignTraining(Long workoutPlanId, Long trainingId) {
+        WorkoutPlan workoutPlan = workoutPlanRepository.findById(workoutPlanId)
+                .orElseThrow(() -> new NotFoundException("WorkoutPlan not found with id: " + workoutPlanId));
+
+        Training training = trainingRepository.findById(trainingId).orElseThrow(() -> new NotFoundException("Training not found with id: " + trainingId));
+
+        workoutPlan.removeTraining(training);
+        training.removeWorkoutPlan(workoutPlan);
+
+        workoutPlanRepository.save(workoutPlan);
+        trainingRepository.save(training);
+
+        return workoutPlan;
     }
 
     public void deleteWorkoutPlan(Long workoutPlanId) {

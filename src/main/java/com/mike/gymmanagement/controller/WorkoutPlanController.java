@@ -57,6 +57,15 @@ public class WorkoutPlanController {
         }
         return ResponseEntity.ok().body(workoutPlan);
     }
+    
+    @DeleteMapping("/{workoutPlanId}/training/{trainingId}")
+    public ResponseEntity<WorkoutPlan> unassignTraining(@PathVariable Long workoutPlanId, @PathVariable Long trainingId) throws NotFoundException {
+        WorkoutPlan workoutPlan = workoutPlanService.unassignTraining(workoutPlanId, trainingId);
+        if (workoutPlan == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(workoutPlan);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkoutPlan(@PathVariable Long id) {
