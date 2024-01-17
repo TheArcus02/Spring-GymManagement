@@ -10,6 +10,7 @@ import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.Hibernate;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +35,7 @@ public abstract class Exercise extends DbObject {
     private Equipment equipment;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "exercises")
+    @ManyToMany(mappedBy = "exercises", fetch = FetchType.EAGER)
     private Set<Training> trainings = new HashSet<>();
 
     @NotBlank(message = "Type is mandatory")
@@ -58,6 +59,10 @@ public abstract class Exercise extends DbObject {
 
     public void freeEquipment() {
         equipment.setOccupied(false);
+    }
+
+    public void removeTraining(Training training) {
+        trainings.remove(training);
     }
 
     public DifficultyEnum getDifficulty() {

@@ -59,7 +59,7 @@ public class ClientController {
         return ResponseEntity.ok().body(client);
     }
 
-    @PatchMapping("/{clientId}/trainer")
+    @DeleteMapping("/{clientId}/trainer")
     public ResponseEntity<Client> removeTrainer(@PathVariable Long clientId) throws NotFoundException {
         Client client = clientService.removeTrainer(clientId);
         if (client == null) {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import org.hibernate.Hibernate;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class Training extends DbObject {
     private Set<Exercise> exercises = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "trainings", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "trainings", fetch = FetchType.LAZY)
     private Set<WorkoutPlan> workoutPlans = new HashSet<>();
 
     @Size(min = 2, max = 100, message = "Description must be between 2 and 100 characters")

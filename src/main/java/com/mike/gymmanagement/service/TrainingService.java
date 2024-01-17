@@ -6,6 +6,7 @@ import com.mike.gymmanagement.model.Training;
 import com.mike.gymmanagement.repository.ExerciseRepository;
 import com.mike.gymmanagement.repository.TrainingRepository;
 import com.mike.gymmanagement.repository.WorkoutPlanRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +62,28 @@ public class TrainingService {
         training.addExercise(exercise);
 
         return trainingRepository.save(training);
+    }
+
+    @Transactional
+    public Training unassignExercise(Long trainingId, Long exerciseId) {
+
+
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new NotFoundException("Training not found with id: " + trainingId));
+
+        Exercise exercise = exerciseRepository.findById(exerciseId).
+                orElseThrow(() -> new NotFoundException("Exercise not found with id: " + exerciseId));
+
+        exercise.removeTraining(training);
+
+        training.removeExercise(exercise);
+
+
+        trainingRepository.save(training);
+        exerciseRepository.save(exercise);
+
+        return training;
+
     }
 
     public void deleteTraining(Long id) {
