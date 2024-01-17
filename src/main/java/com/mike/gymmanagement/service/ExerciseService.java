@@ -91,9 +91,13 @@ public class ExerciseService {
     }
 
     public void deleteExercise(long id) {
-        if (!exerciseRepository.existsById(id)) {
-            throw new NotFoundException("Exercise not found with id: " + id);
-        }
+        Exercise existingExercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Exercise not found with id: " + id));
+
+        existingExercise.setEquipment(null);
+
+        exerciseRepository.save(existingExercise);
+
         exerciseRepository.deleteById(id);
     }
 

@@ -30,7 +30,7 @@ public abstract class Exercise extends DbObject {
     // no validation
     private ExerciseCategoryEnum category;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "equipment_id", referencedColumnName = "id")
     private Equipment equipment;
 

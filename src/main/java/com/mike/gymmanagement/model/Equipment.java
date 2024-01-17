@@ -48,6 +48,10 @@ public abstract class Equipment extends DbObject {
         this.occupied = occupied;
     }
 
+    public void removeExercise(Exercise exercise) {
+        exercises.remove(exercise);
+    }
+
     public List<Exercise> getExercises() {
         return exercises;
     }

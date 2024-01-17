@@ -82,6 +82,7 @@ public class WorkoutPlanService {
         return workoutPlan;
     }
 
+    @Transactional
     public void deleteWorkoutPlan(Long workoutPlanId) {
         WorkoutPlan existingWorkoutPlan = workoutPlanRepository.findById(workoutPlanId).
                 orElseThrow(() -> new NotFoundException("WorkoutPlan not found with id: " + workoutPlanId));
