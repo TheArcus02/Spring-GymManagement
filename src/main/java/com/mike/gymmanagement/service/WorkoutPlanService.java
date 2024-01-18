@@ -95,4 +95,9 @@ public class WorkoutPlanService {
         workoutPlanRepository.deleteById(workoutPlanId);
     }
 
+    public Iterable<WorkoutPlan> findWorkoutPlansByName(String name) {
+        return workoutPlanRepository.findByNameContainingIgnoreCase(name);
+    }
+
+
 }

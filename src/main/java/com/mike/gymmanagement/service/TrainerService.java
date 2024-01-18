@@ -73,4 +73,8 @@ public class TrainerService {
         trainerRepository.save(existingTrainer);
         trainerRepository.deleteById(id);
     }
+
+    public Iterable<Trainer> getTrainersByNameOrSurname(String name, String surname) {
+        return trainerRepository.findByNameContainingIgnoreCaseOrSurnameContainingIgnoreCase(name, surname);
+    }
 }

@@ -68,5 +68,9 @@ public class TrainerController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Trainer>> searchTrainers(@RequestParam String name, @RequestParam String surname) {
+        return ResponseEntity.ok(trainerService.getTrainersByNameOrSurname(name, surname));
+    }
 
 }

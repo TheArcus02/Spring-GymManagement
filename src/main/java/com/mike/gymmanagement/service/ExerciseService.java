@@ -101,6 +101,10 @@ public class ExerciseService {
         exerciseRepository.deleteById(id);
     }
 
+    public Iterable<Exercise> findExercisesByName(String name) {
+        return exerciseRepository.findByNameContainingIgnoreCase(name);
+    }
+
     private static CardioExercise updateCardioExercise(CardioExercise existingExercise, CardioExercise exercise) {
         existingExercise.setName(exercise.getName());
         existingExercise.setCategory(exercise.getCategory());

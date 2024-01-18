@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ExerciseRepository<T extends Exercise> extends CrudRepository<T, Long> {
+public interface ExerciseRepository<T extends Exercise> extends CrudRepository<T, Long>, SearchableRepository<T> {
     @Query("SELECT e FROM Exercise e WHERE TYPE(e) IN (StrengthExercise , CardioExercise)")
     List<Exercise> findAllExercises();
 

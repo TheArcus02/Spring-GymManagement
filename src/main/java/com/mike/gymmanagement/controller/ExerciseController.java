@@ -74,4 +74,9 @@ public class ExerciseController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Exercise>> searchExercises(@RequestParam String name) {
+        return ResponseEntity.ok(exerciseService.findExercisesByName(name));
+    }
+
 }

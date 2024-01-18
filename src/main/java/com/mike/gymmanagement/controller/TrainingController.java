@@ -63,4 +63,9 @@ public class TrainingController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Training>> searchTrainings(@RequestParam String name) {
+        return ResponseEntity.ok(trainingService.findTrainingsByName(name));
+    }
+
 }

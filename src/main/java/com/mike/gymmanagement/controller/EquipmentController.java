@@ -50,4 +50,9 @@ public class EquipmentController {
         equipmentService.deleteEquipment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Equipment>> searchEquipment(@RequestParam String name) {
+        return ResponseEntity.ok(equipmentService.findEquipmentByName(name));
+    }
 }

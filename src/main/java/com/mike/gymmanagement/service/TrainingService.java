@@ -92,4 +92,8 @@ public class TrainingService {
         }
         trainingRepository.deleteById(id);
     }
+
+    public Iterable<Training> findTrainingsByName(String name) {
+        return trainingRepository.findByNameContainingIgnoreCase(name);
+    }
 }

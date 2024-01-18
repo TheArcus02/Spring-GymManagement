@@ -73,6 +73,10 @@ public class EquipmentService {
         equipmentRepository.deleteById(id);
     }
 
+    public Iterable<Equipment> findEquipmentByName(String name) {
+        return equipmentRepository.findByNameContainingIgnoreCase(name);
+    }
+
 
     private static Dumbells updateDumbells(Dumbells existingDumbells, Dumbells dumbells) {
         existingDumbells.setWeight(dumbells.getWeight());

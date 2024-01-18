@@ -96,4 +96,7 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
+    public Iterable<Client> findClientsByNameOrSurname(String name, String surname) {
+        return clientRepository.findByNameContainingIgnoreCaseOrSurnameContainingIgnoreCase(name, surname);
+    }
 }

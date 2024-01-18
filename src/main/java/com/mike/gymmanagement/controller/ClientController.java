@@ -84,4 +84,9 @@ public class ClientController {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Iterable<Client>> searchClients(@RequestParam String name, @RequestParam String surname) {
+        return ResponseEntity.ok().body(clientService.findClientsByNameOrSurname(name, surname));
+    }
 }
