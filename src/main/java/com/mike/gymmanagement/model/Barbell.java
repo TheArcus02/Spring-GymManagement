@@ -18,13 +18,22 @@ public class Barbell extends Equipment {
 
     }
 
+    @Override
+    public String toString() {
+        return "Barbell{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", occupied=" + isOccupied() +
+                ", type='" + getType() +
+                ", weight=" + weight +
+                '}';
+    }
+
     public int getWeight() {
         return weight;
     }
 
     public void setWeight(int weight) {
-        if (weight > 0) {
-            this.weight = weight;
-        }
+        this.weight = weight;
     }
 }

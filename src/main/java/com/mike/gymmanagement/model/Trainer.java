@@ -46,6 +46,19 @@ public class Trainer extends DbObject {
         clients.remove(client);
     }
 
+    @Override
+    public String toString() {
+        return "Trainer{" +
+                "id=" + this.getId() +
+                ", name='" + this.getName() +
+                ", surname='" + surname +
+                ", salary=" + salary +
+                ", clients=" + clients +
+                '}';
+    }
+
+    //    Getters and setters
+
     public Set<Client> getClients() {
         return clients;
     }

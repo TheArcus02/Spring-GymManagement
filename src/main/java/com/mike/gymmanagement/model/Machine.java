@@ -18,6 +18,17 @@ public class Machine extends Equipment {
 
     }
 
+    @Override
+    public String toString() {
+        return "Machine{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", occupied=" + isOccupied() +
+                ", type='" + getType() +
+                ", category=" + category +
+                '}';
+    }
+
     public ExerciseCategoryEnum getCategory() {
         return category;
     }

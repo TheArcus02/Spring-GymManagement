@@ -57,6 +57,17 @@ public class Training extends DbObject {
         this.workoutPlans.remove(workoutPlan);
     }
 
+    @Override
+    public String toString() {
+        return "Training{" +
+                "id=" + this.getId() +
+                ", name='" + this.getName() +
+                ", exercises=" + exercises +
+                ", workoutPlans=" + workoutPlans +
+                ", description='" + description +
+                '}';
+    }
+
     // Getters and setters
     public Set<Exercise> getExercises() {
         return exercises;

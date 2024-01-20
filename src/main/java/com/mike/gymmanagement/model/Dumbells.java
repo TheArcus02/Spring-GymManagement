@@ -18,6 +18,17 @@ public class Dumbells extends Equipment {
 
     }
 
+    @Override
+    public String toString() {
+        return "Dumbells{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", occupied=" + isOccupied() +
+                ", type='" + getType() +
+                ", weight=" + weight +
+                '}';
+    }
+
     public int getWeight() {
         return weight;
     }

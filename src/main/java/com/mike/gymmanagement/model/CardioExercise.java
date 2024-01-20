@@ -25,6 +25,19 @@ public class CardioExercise extends Exercise {
     public CardioExercise() {
     }
 
+    @Override
+    public String toString() {
+        return "CardioExercise{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", difficulty=" + getDifficulty() +
+                ", category=" + getCategory() +
+                ", equipment=" + getEquipment() +
+                ", duration=" + duration +
+                ", tempo=" + tempo +
+                '}';
+    }
+
     public int getDuration() {
         return duration;
     }

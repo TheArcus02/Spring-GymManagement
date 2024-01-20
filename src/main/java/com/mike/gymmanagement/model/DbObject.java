@@ -25,6 +25,14 @@ public abstract class DbObject {
         this.createdAt = LocalDateTime.now();
     }
 
+    @Override
+    public String toString() {
+        return "DbObject{" +
+                "id='" + this.id +
+                ", name=" + this.name +
+                '}';
+    }
+
     public DbObject() {
         this.createdAt = LocalDateTime.now();
     }

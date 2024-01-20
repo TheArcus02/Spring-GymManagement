@@ -21,7 +21,6 @@ public class GymManagementApplication {
 
         Trainer trainer = new Trainer("Mike",
                 "Smith", 1000);
-
         trainerRepository.save(trainer);
     }
 

@@ -48,8 +48,6 @@ public class Client extends DbObject {
 
     }
 
-    //    Start trainng and stop training
-
     public void startTraining(Exercise exercise) {
         exercise.occupyEquipment();
     }
@@ -65,6 +63,19 @@ public class Client extends DbObject {
 
     public void removeWorkoutPlan() {
         this.workoutPlan = null;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + this.getId() +
+                ", name='" + this.getName() +
+                ", surname='" + surname +
+                ", weight=" + weight +
+                ", email='" + email +
+                ", workoutPlan=" + workoutPlan +
+                ", trainer=" + trainer +
+                '}';
     }
 
     //   Getters and setters

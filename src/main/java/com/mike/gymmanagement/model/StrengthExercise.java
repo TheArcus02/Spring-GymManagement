@@ -29,6 +29,20 @@ public class StrengthExercise extends Exercise {
     public StrengthExercise() {
     }
 
+    @Override
+    public String toString() {
+        return "StrengthExercise{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", difficulty=" + getDifficulty() +
+                ", category=" + getCategory() +
+                ", equipment=" + getEquipment() +
+                ", reps=" + reps +
+                ", sets=" + sets +
+                ", weight=" + weight +
+                '}';
+    }
+
     public int getReps() {
         return reps;
     }

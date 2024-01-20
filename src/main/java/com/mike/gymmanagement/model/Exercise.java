@@ -65,6 +65,19 @@ public abstract class Exercise extends DbObject {
         trainings.remove(training);
     }
 
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "id=" + this.getId() +
+                ", name='" + this.getName() +
+                ", difficulty=" + difficulty +
+                ", category=" + category +
+                ", equipment=" + equipment +
+                '}';
+    }
+
+    //    Getters and setters
+
     public DifficultyEnum getDifficulty() {
         return difficulty;
     }

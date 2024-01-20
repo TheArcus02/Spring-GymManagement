@@ -44,6 +44,23 @@ public class WorkoutPlan extends DbObject {
 
     }
 
+
+    public void removeClient(Client client) {
+        this.clients.remove(client);
+    }
+
+    @Override
+    public String toString() {
+        return "WorkoutPlan{" +
+                "id=" + this.getId() +
+                ", name='" + this.getName() +
+                ", description='" + description +
+                ", trainings=" + trainings +
+                ", difficulty=" + difficulty +
+                '}';
+    }
+
+    //    Getters and setters
     public Set<Training> getTrainings() {
         return trainings;
     }
@@ -78,10 +95,6 @@ public class WorkoutPlan extends DbObject {
 
     public void addClient(Client client) {
         this.clients.add(client);
-    }
-
-    public void removeClient(Client client) {
-        this.clients.remove(client);
     }
 
     public DifficultyEnum getDifficulty() {

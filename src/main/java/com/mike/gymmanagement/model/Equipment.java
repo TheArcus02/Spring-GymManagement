@@ -40,6 +40,22 @@ public abstract class Equipment extends DbObject {
 
     }
 
+    public void removeExercise(Exercise exercise) {
+        exercises.remove(exercise);
+    }
+
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "id=" + getId() +
+                ", name='" + getName() +
+                ", occupied=" + occupied +
+                ", type='" + type +
+                '}';
+    }
+
+    //    Getters and setters
+
     public boolean isOccupied() {
         return occupied;
     }
@@ -48,9 +64,6 @@ public abstract class Equipment extends DbObject {
         this.occupied = occupied;
     }
 
-    public void removeExercise(Exercise exercise) {
-        exercises.remove(exercise);
-    }
 
     public List<Exercise> getExercises() {
         return exercises;
