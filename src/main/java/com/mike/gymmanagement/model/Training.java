@@ -30,8 +30,8 @@ public class Training extends DbObject {
     @Size(min = 2, max = 100, message = "Description must be between 2 and 100 characters")
     private String description;
 
-    public Training(long date, String name, Set<Exercise> exercises, Set<WorkoutPlan> workoutPlans, String description) {
-        super(date, name);
+    public Training(String name, Set<Exercise> exercises, Set<WorkoutPlan> workoutPlans, String description) {
+        super(name);
         this.exercises = exercises;
         this.workoutPlans = workoutPlans;
         this.description = description;

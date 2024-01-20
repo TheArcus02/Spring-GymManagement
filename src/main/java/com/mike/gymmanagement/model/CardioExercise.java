@@ -16,8 +16,8 @@ public class CardioExercise extends Exercise {
     @Min(value = 1, message = "Invalid tempo")
     private int tempo;
 
-    public CardioExercise(long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int duration, int tempo) {
-        super(date, name, difficulty, category, equipment);
+    public CardioExercise(String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int duration, int tempo) {
+        super(name, difficulty, category, equipment);
         this.duration = duration;
         this.tempo = tempo;
     }

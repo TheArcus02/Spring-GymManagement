@@ -43,8 +43,8 @@ public abstract class Exercise extends DbObject {
     private String type;
 
 
-    public Exercise(long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment) {
-        super(date, name);
+    public Exercise(String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment) {
+        super(name);
         this.difficulty = difficulty;
         this.category = category;
         this.equipment = equipment;

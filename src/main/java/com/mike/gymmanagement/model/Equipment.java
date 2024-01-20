@@ -31,8 +31,8 @@ public abstract class Equipment extends DbObject {
     @JsonProperty
     private String type;
 
-    public Equipment(long date, String name, boolean occupied) {
-        super(date, name);
+    public Equipment(String name, boolean occupied) {
+        super(name);
         this.occupied = occupied;
     }
 

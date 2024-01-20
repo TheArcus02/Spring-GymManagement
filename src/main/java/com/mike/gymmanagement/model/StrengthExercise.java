@@ -19,8 +19,8 @@ public class StrengthExercise extends Exercise {
     @Min(value = 0, message = "Invalid weight")
     private int weight;
 
-    public StrengthExercise(long date, String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int reps, int sets, int weight) {
-        super(date, name, difficulty, category, equipment);
+    public StrengthExercise(String name, DifficultyEnum difficulty, ExerciseCategoryEnum category, Equipment equipment, int reps, int sets, int weight) {
+        super(name, difficulty, category, equipment);
         this.reps = reps;
         this.sets = sets;
         this.weight = weight;

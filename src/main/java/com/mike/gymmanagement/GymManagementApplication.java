@@ -19,7 +19,7 @@ public class GymManagementApplication {
         TrainerRepository trainerRepository =
                 configurableApplicationContext.getBean(TrainerRepository.class);
 
-        Trainer trainer = new Trainer(1, "Mike",
+        Trainer trainer = new Trainer("Mike",
                 "Smith", 1000);
 
         trainerRepository.save(trainer);

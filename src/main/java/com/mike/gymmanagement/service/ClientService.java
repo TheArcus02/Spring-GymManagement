@@ -76,7 +76,6 @@ public class ClientService {
             Client existingClient = optionalClient.get();
 
             existingClient.setName(updatedClient.getName());
-            existingClient.setDate(updatedClient.getDate());
             existingClient.setSurname(updatedClient.getSurname());
             existingClient.setWeight(updatedClient.getWeight());
 

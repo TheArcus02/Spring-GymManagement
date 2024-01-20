@@ -45,7 +45,6 @@ public class WorkoutPlanService {
             WorkoutPlan existingWorkoutPlan = optionalWorkoutPlan.get();
 
             existingWorkoutPlan.setName(updatedWorkoutPlan.getName());
-            existingWorkoutPlan.setDate(updatedWorkoutPlan.getDate());
             existingWorkoutPlan.setDescription(updatedWorkoutPlan.getDescription());
             existingWorkoutPlan.setDifficulty(updatedWorkoutPlan.getDifficulty());
 

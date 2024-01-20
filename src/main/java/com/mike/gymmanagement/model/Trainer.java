@@ -28,8 +28,8 @@ public class Trainer extends DbObject {
     @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Client> clients = new HashSet<>();
 
-    public Trainer(long date, String name, String surname, double salary) {
-        super(date, name);
+    public Trainer(String name, String surname, double salary) {
+        super(name);
         this.surname = surname;
         this.salary = salary;
     }

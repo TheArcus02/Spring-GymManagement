@@ -42,7 +42,6 @@ public class TrainerService {
             Trainer existingTrainer = optionalTrainer.get();
 
             existingTrainer.setName(updatedTrainer.getName());
-            existingTrainer.setDate(updatedTrainer.getDate());
             existingTrainer.setSurname(updatedTrainer.getSurname());
             existingTrainer.setSalary(updatedTrainer.getSalary());
 

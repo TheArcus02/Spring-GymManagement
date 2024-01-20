@@ -36,8 +36,8 @@ public class Client extends DbObject {
     @Column(name = "trainer_id", insertable = false, updatable = false)
     private Long trainerId;
 
-    public Client(long date, String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
-        super(date, name);
+    public Client(String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
+        super(name);
         this.surname = surname;
         this.weight = weight;
         this.email = email;

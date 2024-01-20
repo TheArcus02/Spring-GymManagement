@@ -33,8 +33,8 @@ public class WorkoutPlan extends DbObject {
     private DifficultyEnum difficulty;
 
 
-    public WorkoutPlan(long date, String name, String description, Set<Training> trainings, DifficultyEnum difficulty) {
-        super(date, name);
+    public WorkoutPlan(String name, String description, Set<Training> trainings, DifficultyEnum difficulty) {
+        super(name);
         this.description = description;
         this.trainings = trainings;
         this.difficulty = difficulty;
