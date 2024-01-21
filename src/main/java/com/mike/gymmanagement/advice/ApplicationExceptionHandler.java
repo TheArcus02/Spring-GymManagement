@@ -59,4 +59,13 @@ public class ApplicationExceptionHandler {
         return errors;
     }
 
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(IllegalStateException.class)
+    public Map<String, String> handleIllegalState(IllegalStateException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", ex.getMessage());
+        log.error("Error: {}", ex.getMessage(), ex);
+        return errors;
+    }
+
 }

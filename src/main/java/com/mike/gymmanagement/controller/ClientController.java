@@ -89,4 +89,24 @@ public class ClientController {
     public ResponseEntity<Iterable<Client>> searchClients(@RequestParam String name, @RequestParam String surname) {
         return ResponseEntity.ok().body(clientService.findClientsByNameOrSurname(name, surname));
     }
+
+    @PatchMapping("/{clientId}/start-training/{exerciseId}")
+    public ResponseEntity<Client> startTraining(@PathVariable Long clientId,
+                                                @PathVariable Long exerciseId) throws NotFoundException {
+        Client client = clientService.trainClient(clientId, exerciseId);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(client);
+    }
+
+    @PatchMapping("/{clientId}/stop-training/{exerciseId}")
+    public ResponseEntity<Client> stopTraining(@PathVariable Long clientId,
+                                               @PathVariable Long exerciseId) throws NotFoundException {
+        Client client = clientService.stopTrainingClient(clientId, exerciseId);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(client);
+    }
 }

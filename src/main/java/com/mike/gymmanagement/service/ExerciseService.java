@@ -86,6 +86,11 @@ public class ExerciseService {
                 .orElseThrow(() -> new NotFoundException("Exercise not found with id: " + exerciseId));
         Equipment equipment = equipmentRepository.findById(equipmentId)
                 .orElseThrow(() -> new NotFoundException("Equipment not found with id: " + equipmentId));
+
+        if (exercise.getEquipment() != null) {
+            exercise.freeEquipment();
+        }
+
         exercise.setEquipment(equipment);
         return exerciseRepository.save(exercise);
     }

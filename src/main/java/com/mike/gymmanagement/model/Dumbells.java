@@ -9,8 +9,8 @@ public class Dumbells extends Equipment {
     @Min(value = 0, message = "Invalid weight")
     private int weight;
 
-    public Dumbells(String name, boolean occupied, int weight) {
-        super(name, occupied);
+    public Dumbells(String name, boolean occupied, int weight, Long occupiedBy) {
+        super(name, occupied, occupiedBy);
         this.weight = weight;
     }
 
@@ -23,7 +23,7 @@ public class Dumbells extends Equipment {
         return "Dumbells{" +
                 "id=" + getId() +
                 ", name=" + getName() +
-                ", occupied=" + isOccupied() +
+                ", occupied=" + isIsOccupied() +
                 ", type='" + getType() +
                 ", weight=" + weight +
                 '}';

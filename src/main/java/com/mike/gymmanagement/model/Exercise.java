@@ -10,7 +10,6 @@ import com.mike.gymmanagement.enums.DifficultyEnum;
 import com.mike.gymmanagement.enums.ExerciseCategoryEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.Hibernate;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -53,12 +52,17 @@ public abstract class Exercise extends DbObject {
     public Exercise() {
     }
 
-    public void occupyEquipment() {
-        equipment.setOccupied(true);
+    public void occupyEquipment(Client client) {
+        if (equipment.isIsOccupied()) {
+            throw new IllegalStateException("Equipment is already occupied");
+        }
+        equipment.setIsOccupied(true);
+        equipment.setOccupiedBy(client.getId());
     }
 
     public void freeEquipment() {
-        equipment.setOccupied(false);
+        equipment.setIsOccupied(false);
+        equipment.setOccupiedBy(null);
     }
 
     public void removeTraining(Training training) {
@@ -108,10 +112,6 @@ public abstract class Exercise extends DbObject {
 
     public void setTrainings(Set<Training> trainings) {
         this.trainings = trainings;
-    }
-
-    public void addTraining(Training training) {
-        this.trainings.add(training);
     }
 
     public String getType() {

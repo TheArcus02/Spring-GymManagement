@@ -36,6 +36,10 @@ public class Client extends DbObject {
     @Column(name = "trainer_id", insertable = false, updatable = false)
     private Long trainerId;
 
+    private boolean isTraining;
+
+    private Long currentlyTrainedExerciseId;
+
     public Client(String name, String surname, double weight, String email, WorkoutPlan workoutPlan) {
         super(name);
         this.surname = surname;
@@ -45,15 +49,18 @@ public class Client extends DbObject {
     }
 
     public Client() {
-
     }
 
     public void startTraining(Exercise exercise) {
-        exercise.occupyEquipment();
+        setIsTraining(true);
+        exercise.occupyEquipment(this);
+        setCurrentlyTrainedExerciseId(exercise.getId());
     }
 
     public void stopTraining(Exercise exercise) {
+        setIsTraining(false);
         exercise.freeEquipment();
+        setCurrentlyTrainedExerciseId(null);
     }
 
     public void assignTrainer(Trainer trainer) {
@@ -125,5 +132,21 @@ public class Client extends DbObject {
 
     public void setTrainerId(Long trainerId) {
         this.trainerId = trainerId;
+    }
+
+    public Boolean getIsTraining() {
+        return isTraining;
+    }
+
+    public void setIsTraining(Boolean training) {
+        isTraining = training;
+    }
+
+    public Long getCurrentlyTrainedExerciseId() {
+        return currentlyTrainedExerciseId;
+    }
+
+    public void setCurrentlyTrainedExerciseId(Long currentlyTrainedExerciseId) {
+        this.currentlyTrainedExerciseId = currentlyTrainedExerciseId;
     }
 }

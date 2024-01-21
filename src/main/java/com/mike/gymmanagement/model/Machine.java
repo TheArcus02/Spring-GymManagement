@@ -9,8 +9,8 @@ public class Machine extends Equipment {
     // No validation
     private ExerciseCategoryEnum category;
 
-    public Machine(String name, boolean occupied, ExerciseCategoryEnum category) {
-        super(name, occupied);
+    public Machine(String name, boolean occupied, ExerciseCategoryEnum category, Long occupiedBy) {
+        super(name, occupied, occupiedBy);
         this.category = category;
     }
 
@@ -23,7 +23,7 @@ public class Machine extends Equipment {
         return "Machine{" +
                 "id=" + getId() +
                 ", name=" + getName() +
-                ", occupied=" + isOccupied() +
+                ", occupied=" + isIsOccupied() +
                 ", type='" + getType() +
                 ", category=" + category +
                 '}';

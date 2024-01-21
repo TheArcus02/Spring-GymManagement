@@ -21,7 +21,9 @@ import java.util.List;
         @JsonSubTypes.Type(value = Machine.class, name = "Machine"),
 })
 public abstract class Equipment extends DbObject {
-    private boolean occupied;
+    private boolean isOccupied;
+
+    private Long occupiedBy;
 
     @JsonIgnore
     @OneToMany(mappedBy = "equipment")
@@ -31,9 +33,10 @@ public abstract class Equipment extends DbObject {
     @JsonProperty
     private String type;
 
-    public Equipment(String name, boolean occupied) {
+    public Equipment(String name, boolean isOccupied, Long occupiedBy) {
         super(name);
-        this.occupied = occupied;
+        this.isOccupied = isOccupied;
+        this.occupiedBy = occupiedBy;
     }
 
     public Equipment() {
@@ -49,19 +52,19 @@ public abstract class Equipment extends DbObject {
         return "Equipment{" +
                 "id=" + getId() +
                 ", name='" + getName() +
-                ", occupied=" + occupied +
+                ", occupied=" + isOccupied +
                 ", type='" + type +
                 '}';
     }
 
     //    Getters and setters
 
-    public boolean isOccupied() {
-        return occupied;
+    public boolean isIsOccupied() {
+        return isOccupied;
     }
 
-    public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
+    public void setIsOccupied(boolean occupied) {
+        this.isOccupied = occupied;
     }
 
 
@@ -79,5 +82,13 @@ public abstract class Equipment extends DbObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getOccupiedBy() {
+        return occupiedBy;
+    }
+
+    public void setOccupiedBy(Long occupiedBy) {
+        this.occupiedBy = occupiedBy;
     }
 }

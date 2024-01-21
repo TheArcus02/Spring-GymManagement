@@ -80,20 +80,20 @@ public class EquipmentService {
 
     private static Dumbells updateDumbells(Dumbells existingDumbells, Dumbells dumbells) {
         existingDumbells.setWeight(dumbells.getWeight());
-        existingDumbells.setOccupied(dumbells.isOccupied());
+        existingDumbells.setIsOccupied(dumbells.isIsOccupied());
         existingDumbells.setType(dumbells.getType());
         return existingDumbells;
     }
 
     public static Barbell updateBarbell(Barbell existingBarbell, Barbell barbell) {
         existingBarbell.setWeight(barbell.getWeight());
-        existingBarbell.setOccupied(barbell.isOccupied());
+        existingBarbell.setIsOccupied(barbell.isIsOccupied());
         existingBarbell.setType(barbell.getType());
         return existingBarbell;
     }
 
     public static Machine updateMachine(Machine existingMachine, Machine machine) {
-        existingMachine.setOccupied(machine.isOccupied());
+        existingMachine.setIsOccupied(machine.isIsOccupied());
         existingMachine.setCategory(machine.getCategory());
         return existingMachine;
     }
